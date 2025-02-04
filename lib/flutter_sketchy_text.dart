@@ -6,11 +6,11 @@ import 'package:flutter_sketchy_text/sketch/rectangle/rectangle_text.dart';
 import 'package:flutter_sketchy_text/sketch/strickthrough/strickthrough_text.dart';
 import 'package:flutter_sketchy_text/sketch/underline/underline_text.dart';
 
-class HighlightedParagraph extends StatelessWidget {
+class SketchyParagraph extends StatelessWidget {
   final String paragraph;
   final List<SketchySentance> highlights;
 
-  const HighlightedParagraph({
+  const SketchyParagraph({
     super.key,
     required this.paragraph,
     required this.highlights,
