@@ -1,7 +1,16 @@
 name: flutter_sketchy_text
-description: "A new Flutter package project."
-version: 0.0.1
+description: "Library to create sketchy text. with highlight, underline, strikethrough, circle and rectangle."
 homepage:
+topics:
+  - sketchy
+  - text
+  - highlight
+  - underline
+  - strikethrough
+  - circle
+  - rectangle
+  - rough notation
+version: 0.0.1
 
 environment:
   sdk: ^3.6.1
