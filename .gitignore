@@ -1,0 +1,156 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+# Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
+/pubspec.lock
+**/doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+
+# Flutter and Dart specific files and directories
+.dart_tool
+.flutter-plugins
+.packages
+.metadata
+build/
+.pub-cache
+.idea/
+.vscode/
+*.iml
+*.iws
+
+# OS and editor specific files
+.DS_Store
+Thumbs.db
+.AppleDouble
+*.swp
+*~
+*.tmp
+.cache
+.history
+*.bak
+*.orig
+*.DS_Store
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Compiled and executable files
+*.apk
+*.ipa
+*.app
+*.exe
+*.dylib
+*.so
+*.a
+
+# Package specific files (if applicable)
+.pub-packages
+.flutter-packages
+example/build/  # Ignore build directory within example app
+example/.dart_tool
+example/.flutter-plugins
+example/.packages
+example/.metadata
+example/.pub-cache
+example/.idea
+example/.vscode
+example/*.iml
+example/*.iws
+
+
+# Version control specific files (if using other than Git)
+.svn
+CVS
+_darcs
+*.pb
+
+# Sensitive information (never commit these!)
+*.env
+.env.*
+config.json # Or any configuration files with secrets
+*.key
+*.pem
+*.pfx
+
+# Other files to ignore
+*.iml # IntelliJ IDEA project files
+.DS_Store # macOS Finder store files
+.idea # IntelliJ IDEA project files
+.vscode # VS Code project files
+.flutter-plugins # Flutter plugin files
+.packages # Flutter package files
+.pub-cache # Flutter pub cache files
+.metadata # Flutter metadata files
+
+# If you have platform-specific build files that are large or frequently change:
+# ios/Pods/  # Example for iOS Pods (use with caution, can be large)
+# android/.gradle # Example for Android Gradle cache (use with caution)
+
+# Files that are specific to your setup and shouldn't be shared
+.local
+.settings
+.env
+
+# Example of a custom file you might want to ignore:
+my_secret_file.txt
+
+# If you use FVM (Flutter Version Management)
+.fvm
+
+# For generated files from build_runner:
+*.g.dart
+*.freezed.dart
+
+
+# JetBrains specific files (if applicable)
+.idea/*
+*.iws
+
+# Android Studio specific files (if applicable)
+.gradle
+.idea
+
+# Xcode specific files (if applicable)
+*.xcworkspace
+*.xcodeproj
+
+# IntelliJ IDEA specific files (if applicable)
+.idea
+
+# Visual Studio Code specific files (if applicable)
+.vscode
+
+# Files that should not be committed
+.env # Environment variables file
+*.key # Private keys
+*.pfx # Certificates
+*.pem # Certificates
+
+# If you are using firebase and you want to ignore firebase configuration file
+firebase_options.dart
