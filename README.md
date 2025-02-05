@@ -4,7 +4,7 @@ Flutter Sketchy Text is a package that lets you add human-like, hand-drawn text 
 
 ## 📸 Example Preview
 
-<img src="https://github.com/Wahab-Khan/flutter_sketchy_text/blob/main/assets/demo.gif" width="238" height="500">
+<img src="https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/demo.gif" width="238" height="500">
 
 ## ✨ Features
 
