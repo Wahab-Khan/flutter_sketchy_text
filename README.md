@@ -119,7 +119,7 @@ SketchySentance(
 
 Want to improve Flutter Sketchy Text? Contributions are welcome!
 
-Steps to Contribute: 1. Fork the Repo – Click the “Fork” button on GitHub 2. Clone Your Fork – git clone https://github.com/yourusername/flutter_sketchy_text.git 3. Create a Branch – git checkout -b my-feature 4. Make Your Changes – Improve animations, fix bugs, or optimize code 5. Push Your Changes – git push origin my-feature 6. Create a Pull Request – Submit your PR for review
+Steps to Contribute: 1. Fork the Repo – Click the “Fork” button on GitHub 2. Clone Your Fork – git clone https://github.com/Wahab-Khan/flutter_sketchy_text.git 3. Create a Branch – git checkout -b my-feature 4. Make Your Changes – Improve animations, fix bugs, or optimize code 5. Push Your Changes – git push origin my-feature 6. Create a Pull Request – Submit your PR for review
 
 ## 📜 License
 
