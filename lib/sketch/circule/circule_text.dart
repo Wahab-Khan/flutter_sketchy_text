@@ -19,7 +19,7 @@ class AnimatedCircleText extends StatefulWidget {
   });
 
   @override
-  _AnimatedCircleTextState createState() => _AnimatedCircleTextState();
+  State<AnimatedCircleText> createState() => _AnimatedCircleTextState();
 }
 
 class _AnimatedCircleTextState extends State<AnimatedCircleText>
