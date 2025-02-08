@@ -7,26 +7,26 @@ SketchyModel paragraphModel = SketchyModel(
   highlightSentances: [
     SketchySentance(
       text: "highlighted project",
-      highlightColor: Colors.red.withValues(alpha: 0.4),
-      highlightType: SketchyType.highlight,
+      sketchyColor: Colors.red.withValues(alpha: 0.4),
+      sketchyType: SketchyType.highlight,
       startDelay: Duration.zero,
     ),
     SketchySentance(
       text: 'underlined concepts',
-      highlightColor: Colors.blue,
-      highlightType: SketchyType.underline,
+      sketchyColor: Colors.blue,
+      sketchyType: SketchyType.underline,
       startDelay: const Duration(seconds: 2),
     ),
     SketchySentance(
       text: 'circled techniques',
-      highlightColor: Colors.green,
-      highlightType: SketchyType.circle,
+      sketchyColor: Colors.green,
+      sketchyType: SketchyType.circle,
       startDelay: const Duration(seconds: 4),
     ),
     SketchySentance(
       text: 'rectangled challenge',
-      highlightColor: Colors.amberAccent,
-      highlightType: SketchyType.rectangle,
+      sketchyColor: Colors.amberAccent,
+      sketchyType: SketchyType.rectangle,
       startDelay: const Duration(seconds: 6),
     )
   ],
