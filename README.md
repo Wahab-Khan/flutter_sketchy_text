@@ -128,6 +128,7 @@ SketchySentance(
   sketchyType: SketchyType.circle, // Choose an effect
   startDelay: const Duration(seconds: 3), // Delay before animation starts
   duration: const Duration(milliseconds: 500), // Speed of the animation
+  onTap: () => debugPrint('Flutter is awesome! tapped'), // Action when tapped
 ),
 ```
 
