@@ -8,10 +8,10 @@ Flutter Sketchy Text is a package that lets you add human-like, hand-drawn text 
 
 ## ✨ Features
 
-• Sketchy Effects – Highlight, Underline, Strikethrough, Circle, Rectangle, and Cross animations.
-• Smooth Hand-Drawn Look – Mimics natural writing with animated strokes.
-• Customizable – Control animation speed, color, and delays.
-• Lightweight & Easy to Use – Simple API for integration into any Flutter project.
+- Sketchy Effects – Highlight, Underline, Strikethrough, Circle, Rectangle, and Cross animations.
+- Smooth Hand-Drawn Look – Mimics natural writing with animated strokes.
+- Customizable – Control animation speed, color, and delays.
+- Lightweight & Easy to Use – Simple API for integration into any Flutter project.
 
 ## Getting started
 
