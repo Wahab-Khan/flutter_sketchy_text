@@ -19,6 +19,7 @@ import 'package:flutter_sketchy_text/sketch/underline/underline_text.dart';
 /// ### **Features:**
 /// - **Supports multiple sketchy effects** within a single paragraph.
 /// - **Customizable colors, durations, and start delays** for each effect.
+/// - **Allows tap interaction with an `onTap` callback for highlighted words.**
 /// - **Maintains proper text flow** without breaking paragraph structure.
 /// - **Uses `RichText` for efficient rendering.**
 ///
@@ -38,6 +39,9 @@ import 'package:flutter_sketchy_text/sketch/underline/underline_text.dart';
 ///       sketchyColor: Colors.blue,
 ///       sketchyType: SketchyType.underline,
 ///       startDelay: Duration(seconds: 2),
+///       onTap: () {
+///          print("Flutter text clicked!");
+///       },
 ///     ),
 ///   ],
 /// )
@@ -113,9 +117,11 @@ class SketchyParagraph extends StatelessWidget {
 
   /// Builds the appropriate animation effect based on the highlight type.
   Widget _buildAnimation(SketchySentance highlight) {
+    Widget animatedWidget;
+
     switch (highlight.sketchyType) {
       case SketchyType.highlight:
-        return AnimatedHighlightedText(
+        animatedWidget = AnimatedHighlightedText(
           text: highlight.text,
           highlightColor: highlight.sketchyColor,
           textStyle: highlight.textStyle ??
@@ -123,8 +129,9 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration,
           startDelay: highlight.startDelay,
         );
+        break;
       case SketchyType.underline:
-        return AnimatedUnderlineText(
+        animatedWidget = AnimatedUnderlineText(
           text: highlight.text,
           underlineColor: highlight.sketchyColor,
           textStyle: highlight.textStyle ??
@@ -132,8 +139,9 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration,
           startDelay: highlight.startDelay,
         );
+        break;
       case SketchyType.strikethrough:
-        return AnimatedStrikethroughText(
+        animatedWidget = AnimatedStrikethroughText(
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
@@ -141,8 +149,9 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration,
           startDelay: highlight.startDelay,
         );
+        break;
       case SketchyType.circle:
-        return AnimatedCircleText(
+        animatedWidget = AnimatedCircleText(
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
@@ -150,8 +159,9 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration,
           startDelay: highlight.startDelay,
         );
+        break;
       case SketchyType.rectangle:
-        return AnimatedRectangleText(
+        animatedWidget = AnimatedRectangleText(
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
@@ -159,6 +169,13 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration,
           startDelay: highlight.startDelay,
         );
+        break;
     }
+
+    // ✅ Wrap in GestureDetector if `onTap` is provided
+    return GestureDetector(
+      onTap: highlight.onTap,
+      child: animatedWidget,
+    );
   }
 }
