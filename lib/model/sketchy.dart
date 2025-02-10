@@ -60,8 +60,12 @@ enum SketchyType { highlight, underline, strikethrough, circle, rectangle }
 ///   sketchyType: SketchyType.highlight,
 ///   startDelay: Duration(seconds: 1),
 ///   duration: Duration(milliseconds: 500),
+///   onTap: () {
+///      print("User clicked on highlighted text!");
+///   },
 /// );
 /// ```
+
 class SketchySentance {
   /// The text to be styled.
   final String text;
@@ -92,6 +96,11 @@ class SketchySentance {
   /// Defaults to [SketchyType.highlight].
   final SketchyType sketchyType;
 
+  /// Callback function triggered when the user taps on the text.
+  ///
+  /// If null, no interaction is enabled.
+  final VoidCallback? onTap;
+
   /// Creates a [SketchySentance] instance.
   ///
   /// - [text]: The text to be styled.
@@ -100,6 +109,7 @@ class SketchySentance {
   /// - [startDelay]: The delay before the styling animation starts.
   /// - [duration]: The duration of the styling animation.
   /// - [sketchyType]: The type of styling to apply.
+  /// - [onTap]: The callback function triggered when the user taps on the text.
   SketchySentance({
     required this.text,
     required this.sketchyColor,
@@ -108,5 +118,6 @@ class SketchySentance {
     this.startDelay = const Duration(milliseconds: 500),
     this.duration = const Duration(milliseconds: 500),
     this.sketchyType = SketchyType.highlight,
+    this.onTap,
   });
 }
