@@ -1,14 +1,50 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 
+/// A `CustomPainter` that creates an **animated hand-drawn circle effect** around the text.
+///
+/// This effect mimics an organic, human-like **sketchy** drawing that progressively
+/// circles the word with **three rounds**, giving it a lively animation.
+///
+/// The effect starts at the right of the text and completes **three revolutions**
+/// to create a natural drawing motion.
+///
+/// ### **Usage:**
+/// Used internally by `AnimatedCircleText` to apply the animation effect.
+///
+/// - **Customization:** Controlled via `animationValue`, `circleColor`, and `precomputedOffsets`.
+/// - **Performance:** Redraws only when `animationValue` changes.
+///
+/// ### **Example Usage:**
+/// ```dart
+/// CustomPaint(
+///   painter: CirclePainter(
+///     text: "Flutter",
+///     textStyle: TextStyle(fontSize: 24, color: Colors.black),
+///     circleColor: Colors.blue,
+///     animationValue: 1.0,  // 100% completed animation
+///     precomputedOffsets: List.generate(1000, (index) => Random().nextDouble()),
+///   ),
+///   child: Text("Flutter", style: TextStyle(fontSize: 24, color: Colors.black)),
+/// )
+/// ```
 class CirclePainter extends CustomPainter {
+  /// The text to be circled.
   final String text;
+
+  /// The text style used for measuring dimensions.
   final TextStyle textStyle;
+
+  /// The color of the animated circle.
   final Color circleColor;
+
+  /// Controls the animation progress (0 to 3 full circles).
   final double animationValue;
+
+  /// A list of random offsets to create an organic, hand-drawn effect.
   final List<double> precomputedOffsets;
 
+  /// Creates a `CirclePainter` to draw an animated sketchy circle around text.
   CirclePainter({
     required this.text,
     required this.textStyle,
@@ -32,11 +68,10 @@ class CirclePainter extends CustomPainter {
     final centerY = wordHeight / 2;
 
     final path = Path();
-    final stretchX = wordWidth * 0.6; // Make the circle stretch with text width
-    final stretchY = wordHeight * 0.5;
+    final stretchX = wordWidth * 0.55; // Adjust horizontal stretching
+    final stretchY = wordHeight * 0.55; // Adjust vertical stretching
 
     for (int i = 0; i < 3; i++) {
-      // Create 3 progressively larger circles
       final currentProgress = (animationValue - i).clamp(0.0, 1.0);
       if (currentProgress > 0) {
         path.moveTo(centerX + stretchX, centerY);
