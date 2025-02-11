@@ -2,13 +2,43 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/sketch/underline/underline_painter.dart';
 
+/// A widget that **animates a sketchy underline effect** under a word or phrase.
+///
+/// This widget progressively **draws a wavy, hand-drawn underline** below the text,
+/// simulating a **person manually underlining a word** with a pen.
+///
+/// ### **Features:**
+/// - **Customizable Animation:** Control speed, delay, and color.
+/// - **Realistic Sketchy Look:** Uses random offsets for **human-like imperfections**.
+/// - **Integrates with Other Effects:** Works alongside highlight, strikethrough, rectangle, etc.
+///
+/// ### **Example Usage:**
+/// ```dart
+/// AnimatedUnderlineText(
+///   text: "Important!",
+///   underlineColor: Colors.blue,
+///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
+///   duration: Duration(seconds: 2),
+///   startDelay: Duration(seconds: 1),
+/// )
+/// ```
 class AnimatedUnderlineText extends StatefulWidget {
+  /// The text that will be underlined.
   final String text;
+
+  /// The color of the animated underline.
   final Color underlineColor;
+
+  /// The style of the text inside the underline.
   final TextStyle textStyle;
+
+  /// The total duration of the animation.
   final Duration duration;
+
+  /// The delay before the animation starts.
   final Duration startDelay;
 
+  /// Creates an animated sketchy underline effect under text.
   const AnimatedUnderlineText({
     super.key,
     required this.text,
@@ -19,7 +49,7 @@ class AnimatedUnderlineText extends StatefulWidget {
   });
 
   @override
-  _AnimatedUnderlineTextState createState() => _AnimatedUnderlineTextState();
+  State<AnimatedUnderlineText> createState() => _AnimatedUnderlineTextState();
 }
 
 class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
@@ -43,7 +73,7 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
     _precomputedOffsets = List.generate(
       1000,
       (index) =>
-          Random().nextDouble() * 4 - 2, // Smaller variation than highlight
+          Random().nextDouble() * 3 - 1, // Smaller variation than highlight
     );
 
     // Delay the animation start if required
