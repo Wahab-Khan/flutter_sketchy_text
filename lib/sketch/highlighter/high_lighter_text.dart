@@ -1,26 +1,55 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_sketchy_text/sketch/highlighter/highlighter_Painter.dart';
+import 'package:flutter_sketchy_text/sketch/highlighter/highlighter_painter.dart';
 
+/// A widget that animates a **hand-drawn, sketchy highlight effect** behind the text.
+///
+/// This widget creates an organic, animated highlight that appears under the text,
+/// mimicking a human **highlighting text with a marker**.
+///
+/// ### **Features:**
+/// - **Realistic Sketchy Look:** Uses wavy, uneven lines for a hand-drawn effect.
+/// - **Smooth Animation:** Progressively reveals the highlight.
+/// - **Customizable:** Control speed, color, and delay.
+///
+/// ### **Example Usage:**
+/// ```dart
+/// AnimatedHighlightedText(
+///   text: "Flutter is amazing!",
+///   highlightColor: Colors.yellow.withOpacity(0.4),
+///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
+///   duration: Duration(seconds: 2),
+///   startDelay: Duration(milliseconds: 500),
+/// )
+/// ```
 class AnimatedHighlightedText extends StatefulWidget {
+  /// The text that will be highlighted.
   final String text;
-  final Color highlightColor;
-  final TextStyle textStyle;
-  final Duration duration; // Animation duration
-  final Duration startDelay; // Delay before animation starts
 
+  /// The color of the highlight effect.
+  final Color highlightColor;
+
+  /// The text style used to render the text.
+  final TextStyle textStyle;
+
+  /// The total duration of the highlight animation.
+  final Duration duration;
+
+  /// The delay before the highlight animation starts.
+  final Duration startDelay;
+
+  /// Creates an animated sketchy highlight effect for text.
   const AnimatedHighlightedText({
     super.key,
     required this.text,
     required this.highlightColor,
     required this.textStyle,
-    this.duration = const Duration(seconds: 2),
+    this.duration = const Duration(milliseconds: 2000),
     this.startDelay = Duration.zero,
   });
 
   @override
-  _AnimatedHighlightedTextState createState() =>
+  State<AnimatedHighlightedText> createState() =>
       _AnimatedHighlightedTextState();
 }
 
@@ -46,7 +75,7 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
     // Precompute offsets for smooth animation
     _precomputedOffsets = List.generate(
       1000,
-      (index) => Random().nextDouble() * 6 - 3,
+      (index) => Random().nextDouble() * 3.5 - 1,
     );
 
     // Start the animation after the given delay
