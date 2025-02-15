@@ -2,13 +2,43 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/sketch/strickthrough/strickthrough_painter.dart';
 
+/// A widget that **animates a sketchy strikethrough effect** over a word or phrase.
+///
+/// This widget progressively **draws a wavy, hand-drawn strikethrough** over the text,
+/// simulating a **person manually crossing out a word** with a pen.
+///
+/// ### **Features:**
+/// - **Customizable Animation:** Control speed, delay, and color.
+/// - **Realistic Sketchy Look:** Uses random offsets for **human-like imperfections**.
+/// - **Integrates with Other Effects:** Works alongside highlight, underline, rectangle, etc.
+///
+/// ### **Example Usage:**
+/// ```dart
+/// AnimatedStrikethroughText(
+///   text: "Outdated!",
+///   strikeColor: Colors.red,
+///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
+///   duration: Duration(seconds: 2),
+///   startDelay: Duration(seconds: 1),
+/// )
+/// ```
 class AnimatedStrikethroughText extends StatefulWidget {
+  /// The text that will be striked through.
   final String text;
+
+  /// The color of the animated strikethrough.
   final Color strikeColor;
+
+  /// The style of the text inside the strikethrough.
   final TextStyle textStyle;
+
+  /// The total duration of the animation.
   final Duration duration;
+
+  /// The delay before the animation starts.
   final Duration startDelay;
 
+  /// Creates an animated sketchy strikethrough effect over text.
   const AnimatedStrikethroughText({
     super.key,
     required this.text,
@@ -19,7 +49,7 @@ class AnimatedStrikethroughText extends StatefulWidget {
   });
 
   @override
-  _AnimatedStrikethroughTextState createState() =>
+  State<AnimatedStrikethroughText> createState() =>
       _AnimatedStrikethroughTextState();
 }
 
@@ -44,8 +74,8 @@ class _AnimatedStrikethroughTextState extends State<AnimatedStrikethroughText>
     _precomputedOffsets = List.generate(
       1000,
       (index) =>
-          Random().nextDouble() * 4 -
-          2, // Small variation for a human-like effect
+          Random().nextDouble() * 3.5 -
+          1.5, // Small variation for a human-like effect
     );
 
     // Start the animation after a delay if provided
