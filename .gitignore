@@ -161,3 +161,5 @@ example/macos/Flutter/Flutter-Debug.xcconfig
 example/macos/Flutter/Flutter-Release.xcconfig
 example/windows/flutter/generated_plugin_registrant.cc
 example/windows/flutter/generated_plugins.cmake
+example/ios/Flutter/Debug.xcconfig
+example/ios/Flutter/Release.xcconfig
