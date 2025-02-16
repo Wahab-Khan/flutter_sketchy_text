@@ -2,6 +2,12 @@
 
 Flutter Sketchy Text is a package that lets you add human-like, hand-drawn text animations to your Flutter apps. With effects like highlighting, underlining, circling, and more, you can create dynamic and visually engaging text displays that feel organic and lively.
 
+**Live Example:**
+
+[Abdul Wahab Khan](https://wahab-khan.github.io/Abdul-Wahab-Khan/)
+
+Here's a live example showcasing the implementation of this package.
+
 ## 📸 Example Preview
 
 <img src="https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/demo.gif" width="238" height="500">
@@ -44,47 +50,78 @@ Define your text and specify which words to animate:
 
 ```
 SketchyModel paragraphModel = SketchyModel(
-  paragraph:
-      """In a world full of possibilities, creativity is the key to unlocking new ideas. Whether you're working on a highlighted project, exploring underlined concepts, experimenting with circled techniques, testing strikethrough effects, or tackling rectangled challenges, the journey is as important as the destination. Remember, every challenge is an opportunity to grow and learn. Embrace the process, and let your imagination guide you!""",
+  paragraph: """
+## 📝 Introduction
+In a world full of possibilities, creativity is the key to unlocking new ideas.
+Whether you're working on a highlighted project, exploring underlined concepts,
+experimenting with circled techniques, testing strikethrough effects,
+or tackling rectangled challenges, the journey is as important as the destination.
+
+## ❓ Why It Matters
+Remember, every challenge is an opportunity to grow and learn.
+Embrace the process, and let your imagination guide you!
+
+## 🔄 Repeated Words Demo
+Working on another highlighted project can reinforce ideas.
+Some underlined concepts are worth revisiting.
+Even circled techniques can evolve over time.
+Sometimes, strikethrough effects help remove clutter.
+Finally, tackling rectangled challenges again builds mastery.
+""",
   highlightSentances: [
+
+    /// 📍 Simple Example (Default Settings)
+    /// Highlights "Introduction" with default animation & color.
+    SketchySentance(text: "Introduction"),
+
+    /// 🎨 Highlight Effect (Custom Color + Tap Action)
+    /// Click to open the Flutter Sketchy Text package on pub.dev.
     SketchySentance(
       text: "highlighted project",
-      sketchyColor: Colors.red.withValues(alpha: 0.4),
-      sketchyType: SketchyType.highlight,
-      startDelay: Duration.zero,
-      onTap: () => _launchInBrowser(
-          Uri.parse('https://pub.dev/packages/flutter_sketchy_text')),
+      sketchyColor: Colors.brown.withValues(alpha: 0.4), // Optional: Default varies.
+      sketchyType: SketchyType.highlight, // Required: Defines the animation type.
+      onTap: () => _launchInBrowser(Uri.parse(
+          'https://pub.dev/packages/flutter_sketchy_text')), // Optional: Adds interactivity.
     ),
+
+    /// 🖊️ Underline Effect
+    /// Click to log a message in debug console.
     SketchySentance(
       text: 'underlined concepts',
-      sketchyColor: Colors.blue,
       sketchyType: SketchyType.underline,
-      startDelay: const Duration(seconds: 2),
       onTap: () => debugPrint('Underlined text clicked!'),
     ),
+
+    /// ⭕ Circle Effect
+    /// Click to log a message in debug console.
     SketchySentance(
       text: 'circled techniques',
-      sketchyColor: Colors.green,
       sketchyType: SketchyType.circle,
-      startDelay: const Duration(seconds: 4),
-      duration: const Duration(seconds: 4),
       onTap: () => debugPrint('Circled text clicked!'),
     ),
+
+    /// ✍️ Strikethrough Effect
+    /// Click to log a message in debug console.
     SketchySentance(
       text: 'strikethrough effects',
-      sketchyColor: Colors.purple,
       sketchyType: SketchyType.strikethrough,
-      startDelay: const Duration(seconds: 5),
-      duration: Duration(milliseconds: 500),
       onTap: () => debugPrint('Strikethrough text clicked!'),
     ),
+
+    /// 🟦 Rectangle Effect
+    /// Click to log a message in debug console.
     SketchySentance(
       text: 'rectangled challenges',
-      sketchyColor: Colors.amberAccent,
       sketchyType: SketchyType.rectangle,
-      startDelay: const Duration(seconds: 6),
-      duration: const Duration(seconds: 2),
       onTap: () => debugPrint('Rectangled text clicked!'),
+    ),
+
+    /// 🟦 Rectangle Effect (Another Example)
+    /// Highlights "Matters" with a rectangle effect.
+    SketchySentance(
+      text: 'Matters',
+      sketchyType: SketchyType.rectangle,
+      onTap: () => debugPrint('Matters clicked!'),
     ),
   ],
 );
@@ -126,7 +163,6 @@ SketchySentance(
   text: 'Flutter is awesome!',
   sketchyColor: Colors.purple.withValues(alpha: 0.4), // Custom color
   sketchyType: SketchyType.circle, // Choose an effect
-  startDelay: const Duration(seconds: 3), // Delay before animation starts
   duration: const Duration(milliseconds: 500), // Speed of the animation
   onTap: () => debugPrint('Flutter is awesome! tapped'), // Action when tapped
 ),
