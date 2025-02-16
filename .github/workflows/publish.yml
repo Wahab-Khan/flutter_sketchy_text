@@ -4,7 +4,7 @@ name: Publish to pub.dev
 on:
   push:
     tags:
-      - "[0-9]+.[0-9]+.[0-9]+" # tag pattern on pub.dev: 'v{{version}'
+      - "[0-9]+.[0-9]+.[0-9]+" # tag pattern on pub.dev: '{{version}}'
 
 # Publish using custom workflow
 jobs:
@@ -20,4 +20,9 @@ jobs:
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
       - name: Publish
-        run: dart pub publish --force
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # Get credentials from secrets
+        run: |
+          echo "$PUB_CREDENTIALS" > credentials.json
+          dart pub publish --force -C credentials.json
+          rm credentials.json # Clean up credentials file
