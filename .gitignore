@@ -154,3 +154,10 @@ my_secret_file.txt
 
 # If you are using firebase and you want to ignore firebase configuration file
 firebase_options.dart
+example/linux/flutter/generated_plugin_registrant.cc
+example/linux/flutter/generated_plugin_registrant.cc
+example/linux/flutter/generated_plugins.cmake
+example/macos/Flutter/Flutter-Debug.xcconfig
+example/macos/Flutter/Flutter-Release.xcconfig
+example/windows/flutter/generated_plugin_registrant.cc
+example/windows/flutter/generated_plugins.cmake
