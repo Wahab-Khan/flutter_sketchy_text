@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 
-/// A `CustomPainter` that creates an **animated, hand-drawn highlight effect** behind text.
+/// **A `CustomPainter` that creates an animated highlight effect behind text.**
 ///
-/// This effect mimics the look of someone **marking text with a highlighter**
-/// in a slightly wavy, natural manner.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn highlight.
+/// - **Plain Mode:** Straight, structured highlight.
 ///
-/// The highlight **gradually appears from left to right**, creating a realistic animation effect.
-///
-/// ### **Usage:**
-/// Used internally by `AnimatedHighlightedText` to render the highlight effect.
-///
-/// - **Customization:** Controlled via `animationValue`, `highlightColor`, and `precomputedOffsets`.
-/// - **Performance:** Redraws only when `animationValue` changes.
+/// This effect mimics the look of someone **marking text with a highlighter**.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -21,6 +17,7 @@ import 'package:flutter/material.dart';
 ///     textStyle: TextStyle(fontSize: 24, color: Colors.black),
 ///     highlightColor: Colors.yellow,
 ///     animationValue: 1.0,  // 100% completed highlight
+///     animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 ///     precomputedOffsets: List.generate(1000, (index) => Random().nextDouble()),
 ///   ),
 ///   child: Text("Flutter", style: TextStyle(fontSize: 24, color: Colors.black)),
@@ -42,13 +39,17 @@ class HighlighterPainter extends CustomPainter {
   /// A list of random offsets to create an organic, hand-drawn effect.
   final List<double> precomputedOffsets;
 
-  /// Creates a `HighlighterPainter` to draw an animated sketchy highlight behind text.
+  /// Determines whether the highlight should be **sketchy (organic)** or **straight (plain)**.
+  final SketchyAnimationMode animationMode;
+
+  /// Creates a `HighlighterPainter` to draw an animated highlight behind text.
   HighlighterPainter({
     required this.text,
     required this.textStyle,
     required this.highlightColor,
     required this.animationValue,
     required this.precomputedOffsets,
+    this.animationMode = SketchyAnimationMode.organic, // Default to organic
   });
 
   @override
@@ -67,24 +68,41 @@ class HighlighterPainter extends CustomPainter {
 
       final path = Path();
 
-      // Top wavy line (starts from the left)
-      path.moveTo(0, lineTop);
-      for (double x = 0; x <= lineWidth * animationValue; x += 10) {
-        final y =
-            lineTop + precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
-        path.lineTo(x, y);
+      // **Plain Mode: Draw a clean, straight highlight**
+      if (animationMode == SketchyAnimationMode.plain) {
+        final highlightHeight = lineHeight * 0.85;
+        path.addRect(
+          Rect.fromLTWH(
+            0,
+            lineTop,
+            lineWidth * animationValue,
+            highlightHeight,
+          ),
+        );
+      }
+      // **Organic Mode: Wavy, hand-drawn highlight**
+      else {
+        // **Top wavy line**
+        path.moveTo(0, lineTop);
+        for (double x = 0; x <= lineWidth * animationValue; x += 10) {
+          final y =
+              lineTop +
+              precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
+          path.lineTo(x, y);
+        }
+
+        // **Bottom wavy line**
+        for (double x = lineWidth * animationValue; x >= 0; x -= 10) {
+          final y =
+              lineTop +
+              lineHeight * 0.8 +
+              precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
+          path.lineTo(x, y);
+        }
+
+        path.close();
       }
 
-      // Bottom wavy line (adds depth to the highlight effect)
-      for (double x = lineWidth * animationValue; x >= 0; x -= 10) {
-        final y =
-            lineTop +
-            lineHeight * 0.8 +
-            precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
-        path.lineTo(x, y);
-      }
-
-      path.close();
       canvas.drawPath(
         path,
         Paint()

@@ -1,16 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/highlighter/highlighter_painter.dart';
 
 /// A widget that animates a **hand-drawn, sketchy highlight effect** behind the text.
 ///
-/// This widget creates an organic, animated highlight that appears under the text,
-/// mimicking a human **highlighting text with a marker**.
-///
-/// ### **Features:**
-/// - **Realistic Sketchy Look:** Uses wavy, uneven lines for a hand-drawn effect.
-/// - **Smooth Animation:** Progressively reveals the highlight.
-/// - **Customizable:** Control speed, color, and delay.
+/// Supports two animation modes:
+/// - **Organic Mode:** Random wavy lines for a natural, hand-drawn effect.
+/// - **Plain Mode:** Smooth, straight highlighting for a more structured look.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -18,6 +15,7 @@ import 'package:flutter_sketchy_text/sketch/highlighter/highlighter_painter.dart
 ///   text: "Flutter is amazing!",
 ///   highlightColor: Colors.yellow.withOpacity(0.4),
 ///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
+///   animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 ///   duration: Duration(seconds: 2),
 ///   startDelay: Duration(milliseconds: 500),
 /// )
@@ -38,12 +36,16 @@ class AnimatedHighlightedText extends StatefulWidget {
   /// The delay before the highlight animation starts.
   final Duration startDelay;
 
+  /// **Determines whether the highlight is sketchy (Organic) or straight (Plain).**
+  final SketchyAnimationMode animationMode;
+
   /// Creates an animated sketchy highlight effect for text.
   const AnimatedHighlightedText({
     super.key,
     required this.text,
     required this.highlightColor,
     required this.textStyle,
+    this.animationMode = SketchyAnimationMode.organic, // Default to organic
     this.duration = const Duration(milliseconds: 2000),
     this.startDelay = Duration.zero,
   });
@@ -69,11 +71,11 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
     // Define the animation
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
 
-    // Precompute offsets for smooth animation
-    _precomputedOffsets = List.generate(
-      1000,
-      (index) => Random().nextDouble() * 3.5 - 1,
-    );
+    // Generate random offsets only if using organic mode
+    _precomputedOffsets =
+        widget.animationMode == SketchyAnimationMode.organic
+            ? List.generate(1000, (index) => Random().nextDouble() * 3.5 - 1)
+            : List.generate(1000, (index) => 0); // No randomness for plain mode
 
     // Start the animation after the given delay
     if (widget.startDelay > Duration.zero) {
@@ -105,6 +107,7 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
             highlightColor: widget.highlightColor,
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
+            animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),
         );
