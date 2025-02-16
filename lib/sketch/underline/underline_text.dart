@@ -1,16 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/underline/underline_painter.dart';
 
-/// A widget that **animates a sketchy underline effect** under a word or phrase.
+/// A widget that **animates a sketchy underline effect** under text.
 ///
-/// This widget progressively **draws a wavy, hand-drawn underline** below the text,
-/// simulating a **person manually underlining a word** with a pen.
-///
-/// ### **Features:**
-/// - **Customizable Animation:** Control speed, delay, and color.
-/// - **Realistic Sketchy Look:** Uses random offsets for **human-like imperfections**.
-/// - **Integrates with Other Effects:** Works alongside highlight, strikethrough, rectangle, etc.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn underline.
+/// - **Plain Mode:** Straight underline.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -20,25 +17,17 @@ import 'package:flutter_sketchy_text/sketch/underline/underline_painter.dart';
 ///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
 ///   duration: Duration(seconds: 2),
 ///   startDelay: Duration(seconds: 1),
+///   animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 /// )
 /// ```
 class AnimatedUnderlineText extends StatefulWidget {
-  /// The text that will be underlined.
   final String text;
-
-  /// The color of the animated underline.
   final Color underlineColor;
-
-  /// The style of the text inside the underline.
   final TextStyle textStyle;
-
-  /// The total duration of the animation.
   final Duration duration;
-
-  /// The delay before the animation starts.
   final Duration startDelay;
+  final SketchyAnimationMode animationMode; // New Mode for Plain/Organic
 
-  /// Creates an animated sketchy underline effect under text.
   const AnimatedUnderlineText({
     super.key,
     required this.text,
@@ -46,6 +35,7 @@ class AnimatedUnderlineText extends StatefulWidget {
     required this.textStyle,
     this.duration = const Duration(milliseconds: 500),
     this.startDelay = Duration.zero,
+    this.animationMode = SketchyAnimationMode.organic, // Default to Organic
   });
 
   @override
@@ -63,17 +53,17 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
     super.initState();
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
-
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
 
-    // Generate precomputed offsets to create a natural wavy underline
     _precomputedOffsets = List.generate(
       1000,
       (index) =>
-          Random().nextDouble() * 3 - 1, // Smaller variation than highlight
+          widget.animationMode == SketchyAnimationMode.organic
+              ? Random().nextDouble() * 3 -
+                  1 // Wavy Effect
+              : 0, // Plain Mode: No Offsets
     );
 
-    // Delay the animation start if required
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
         if (mounted) _controller.forward();
@@ -101,6 +91,7 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
             underlineColor: widget.underlineColor,
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
+            animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),
         );
