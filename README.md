@@ -48,86 +48,115 @@ Add the package to your pubspec.yaml:
 
 ## 🚀 Usage
 
-1️⃣ Create a Sketchy Paragraph
+1️⃣ Define Sketchy Models
 
-Define your text and specify which words to animate:
+Create headings and paragraphs with different animation styles:
 
 ```
-import 'package:flutter_sketchy_text/model/sketchy.dart';
+/// **Sketchy Models for Headings**
+final plainHeadingModel = SketchyModel(
+  paragraph: "Plain Animation",
+  highlightSentances: [
+    SketchySentance(
+      text: "Plain Animation",
+      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  ],
+);
 
-/// Define text animations with SketchyModel
-final paragraphModel = SketchyModel(
+final organicHeadingModel = SketchyModel(
+  paragraph: "Organic Animation",
+  highlightSentances: [
+    SketchySentance(
+      text: "Organic Animation",
+      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  ],
+);
+
+/// **Paragraph with words highlighted using sketchy effects.**
+SketchyModel paragraphModel = SketchyModel(
   paragraph: """
-## 📝 Introduction
-In a world full of possibilities, creativity unlocks new ideas.
-You can apply **highlighted text**, **underlined concepts**,
-**circled techniques**, **strikethrough effects**,
-or **rectangled challenges** to animate words dynamically.
-
-## ❓ Why It Matters
-Every **challenge** is an opportunity to grow and learn.
-Embrace the process, and let your imagination guide you!
+Flutter Sketchy Text makes animations fun!
+You can use highlighted text, underlined words,
+circled techniques, strikethrough effects,
+or rectangled challenges to bring text to life.
 """,
   highlightSentances: [
-    /// 📍 Simple Example (Default Settings)
-    SketchySentance(text: "Introduction"),
-
-    /// 🎨 Highlight Effect (Custom Color + Tap Action)
-    SketchySentance(
-      text: "highlighted text",
-      sketchyColor: Colors.brown.withValues(alpha: 0.4),
-      sketchyType: SketchyType.highlight,
-      onTap: () => _launchInBrowser(Uri.parse(
-          'https://pub.dev/packages/flutter_sketchy_text')),
-    ),
-
-    /// 🖊️ Underline Effect
-    SketchySentance(
-      text: 'underlined concepts',
-      sketchyType: SketchyType.underline,
-    ),
-
-    /// ⭕ Circle Effect
-    SketchySentance(
-      text: 'circled techniques',
-      sketchyType: SketchyType.circle,
-    ),
-
-    /// ✍️ Strikethrough Effect
-    SketchySentance(
-      text: 'strikethrough effects',
-      sketchyType: SketchyType.strikethrough,
-    ),
-
-    /// 🟦 Rectangle Effect
-    SketchySentance(
-      text: 'rectangled challenges',
-      sketchyType: SketchyType.rectangle,
-    ),
+    SketchySentance(text: "highlighted text", sketchyType: SketchyType.highlight),
+    SketchySentance(text: "underlined words", sketchyType: SketchyType.underline),
+    SketchySentance(text: "circled techniques", sketchyType: SketchyType.circle),
+    SketchySentance(text: "strikethrough effects", sketchyType: SketchyType.strikethrough),
+    SketchySentance(text: "rectangled challenges", sketchyType: SketchyType.rectangle),
   ],
 );
 ```
 
-2️⃣ Display the Animated Text
+2️⃣ Display Plain & Organic Animations Together
 
 Use SketchyParagraph to render the animated text inside your widget tree:
 
 ```
-import 'package:flutter/material.dart';
-import 'package:flutter_sketchy_text/sketchy_paragraph.dart';
+void main() {
+  runApp(const MyApp());
+}
 
+/// **Main Application Widget**
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text("Flutter Sketchy Text")),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SketchyParagraph(
-            paragraph: paragraphModel.paragraph,
-            highlights: paragraphModel.highlightSentances,
-          ),
+      title: 'Flutter Sketchy Text Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+/// **Home Page with Plain and Organic Animations**
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Flutter Sketchy Text Demo')),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// **Plain Animation**
+            SketchyParagraph(
+              paragraph: plainHeadingModel.paragraph,
+              highlights: plainHeadingModel.highlightSentances,
+              animationMode: SketchyAnimationMode.plain,
+            ),
+            SketchyParagraph(
+              paragraph: paragraphModel.paragraph,
+              highlights: paragraphModel.highlightSentances,
+              animationMode: SketchyAnimationMode.plain,
+            ),
+
+            const SizedBox(height: 20),
+
+            /// **Organic Animation**
+            SketchyParagraph(
+              paragraph: organicHeadingModel.paragraph,
+              highlights: organicHeadingModel.highlightSentances,
+              animationMode: SketchyAnimationMode.organic,
+            ),
+            SketchyParagraph(
+              paragraph: paragraphModel.paragraph,
+              highlights: paragraphModel.highlightSentances,
+              animationMode: SketchyAnimationMode.organic,
+            ),
+          ],
         ),
       ),
     );
@@ -153,8 +182,8 @@ SketchySentance(
 
 You can choose between two animation styles:
 
-1️⃣ Plain Mode: Perfect straight-line animations for a clean effect.
-2️⃣ Organic Mode: Hand-drawn, wavy lines for a natural effect.
+1️⃣. Plain Mode: Perfect straight-line animations for a clean effect.
+2️⃣. Organic Mode: Hand-drawn, wavy lines for a natural effect.
 
 ```
 SketchyParagraph(
