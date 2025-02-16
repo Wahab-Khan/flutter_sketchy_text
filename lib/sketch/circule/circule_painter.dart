@@ -76,29 +76,34 @@ class CirclePainter extends CustomPainter {
       if (currentProgress > 0) {
         path.moveTo(centerX + stretchX, centerY);
 
-        for (double angle = 0;
-            angle <= 2 * pi * currentProgress;
-            angle += 0.1) {
-          final x = centerX +
+        for (
+          double angle = 0;
+          angle <= 2 * pi * currentProgress;
+          angle += 0.1
+        ) {
+          final x =
+              centerX +
               stretchX * cos(angle) +
-              precomputedOffsets[
-                      (angle * 10).toInt() % precomputedOffsets.length] *
+              precomputedOffsets[(angle * 10).toInt() %
+                      precomputedOffsets.length] *
                   0.5;
-          final y = centerY +
+          final y =
+              centerY +
               stretchY * sin(angle) +
-              precomputedOffsets[
-                      (angle * 10).toInt() % precomputedOffsets.length] *
+              precomputedOffsets[(angle * 10).toInt() %
+                      precomputedOffsets.length] *
                   0.5;
           path.lineTo(x, y);
         }
       }
     }
 
-    final paint = Paint()
-      ..color = circleColor
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
+    final paint =
+        Paint()
+          ..color = circleColor
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round;
 
     canvas.drawPath(path, paint);
   }

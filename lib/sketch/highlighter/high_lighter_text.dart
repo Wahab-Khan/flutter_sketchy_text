@@ -64,10 +64,7 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
     super.initState();
 
     // Initialize AnimationController with the provided duration
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     // Define the animation
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
@@ -109,10 +106,7 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
           ),
-          child: Text(
-            widget.text,
-            style: widget.textStyle,
-          ),
+          child: Text(widget.text, style: widget.textStyle),
         );
       },
     );

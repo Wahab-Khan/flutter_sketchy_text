@@ -77,13 +77,16 @@ class SketchySentance {
   SketchySentance({
     required this.text,
     Color? sketchyColor,
-    this.textStyle =
-        const TextStyle(fontSize: 14, color: Colors.black, height: 1.25),
+    this.textStyle = const TextStyle(
+      fontSize: 14,
+      color: Colors.black,
+      height: 1.25,
+    ),
     Duration? duration,
     this.sketchyType = SketchyType.highlight,
     this.onTap,
-  })  : sketchyColor = sketchyColor ?? _getDefaultColor(sketchyType),
-        duration = getDefaultDuration(sketchyType);
+  }) : sketchyColor = sketchyColor ?? _getDefaultColor(sketchyType),
+       duration = getDefaultDuration(sketchyType);
 
   SketchySentance.internalConstructor({
     required this.text,

@@ -77,7 +77,8 @@ class HighlighterPainter extends CustomPainter {
 
       // Bottom wavy line (adds depth to the highlight effect)
       for (double x = lineWidth * animationValue; x >= 0; x -= 10) {
-        final y = lineTop +
+        final y =
+            lineTop +
             lineHeight * 0.8 +
             precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
         path.lineTo(x, y);

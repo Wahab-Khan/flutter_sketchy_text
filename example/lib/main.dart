@@ -31,11 +31,14 @@ Finally, tackling rectangled challenges again builds mastery.
     /// **Highlight effect** with a custom color and a tap action.
     SketchySentance(
       text: "highlighted project",
-      sketchyColor: Colors.brown
-          .withValues(alpha: 0.4), // Optional: Default varies by type.
+      sketchyColor: Colors.brown.withValues(
+        alpha: 0.4,
+      ), // Optional: Default varies by type.
       sketchyType: SketchyType.highlight, // Required: Effect type.
-      onTap: () => _launchInBrowser(Uri.parse(
-          'https://pub.dev/packages/flutter_sketchy_text')), // Optional: Default is null.
+      onTap:
+          () => _launchInBrowser(
+            Uri.parse('https://pub.dev/packages/flutter_sketchy_text'),
+          ), // Optional: Default is null.
     ),
 
     /// **Underline effect** with default color and animation settings.
@@ -77,10 +80,7 @@ Finally, tackling rectangled challenges again builds mastery.
 
 /// **Opens a URL in the browser when a user taps a highlighted word.**
 Future<void> _launchInBrowser(Uri url) async {
-  if (!await launchUrl(
-    url,
-    mode: LaunchMode.externalApplication,
-  )) {
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
     throw Exception('Could not launch $url');
   }
 }

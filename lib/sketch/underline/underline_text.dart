@@ -62,10 +62,7 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
 
@@ -105,10 +102,7 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
           ),
-          child: Text(
-            widget.text,
-            style: widget.textStyle,
-          ),
+          child: Text(widget.text, style: widget.textStyle),
         );
       },
     );

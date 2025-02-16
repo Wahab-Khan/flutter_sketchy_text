@@ -96,7 +96,8 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double x = 0; x <= rightLength && x <= remaining; x += 6) {
-        final y = offsetY +
+        final y =
+            offsetY +
             downLength +
             precomputedOffsets[(x ~/ 6) % precomputedOffsets.length];
         path.lineTo(offsetX + x, y);
@@ -108,7 +109,8 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double y = 0; y <= upLength && y <= remaining; y += 6) {
-        final x = offsetX +
+        final x =
+            offsetX +
             rightLength +
             precomputedOffsets[(y ~/ 6) % precomputedOffsets.length];
         path.lineTo(x, offsetY + downLength - y);

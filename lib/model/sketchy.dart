@@ -38,14 +38,14 @@ class SketchyModel {
     required this.paragraph,
     required List<SketchySentance> highlightSentances,
   }) : highlightSentances = List.generate(
-          highlightSentances.length,
-          (index) => SketchySentance(
-            text: highlightSentances[index].text,
-            sketchyType: highlightSentances[index].sketchyType,
-            sketchyColor: highlightSentances[index].sketchyColor,
-            textStyle: highlightSentances[index].textStyle,
-            duration: highlightSentances[index].duration,
-            onTap: highlightSentances[index].onTap,
-          ),
-        );
+         highlightSentances.length,
+         (index) => SketchySentance(
+           text: highlightSentances[index].text,
+           sketchyType: highlightSentances[index].sketchyType,
+           sketchyColor: highlightSentances[index].sketchyColor,
+           textStyle: highlightSentances[index].textStyle,
+           duration: highlightSentances[index].duration,
+           onTap: highlightSentances[index].onTap,
+         ),
+       );
 }

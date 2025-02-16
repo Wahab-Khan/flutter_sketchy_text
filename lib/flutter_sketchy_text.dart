@@ -105,9 +105,7 @@ class SketchyParagraph extends StatelessWidget {
 
       // **Add text before the highlight**
       if (index > currentPosition) {
-        spans.add(TextSpan(
-          text: paragraph.substring(currentPosition, index),
-        ));
+        spans.add(TextSpan(text: paragraph.substring(currentPosition, index)));
       }
 
       // **Add the animated highlight**
@@ -115,9 +113,7 @@ class SketchyParagraph extends StatelessWidget {
         WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
           baseline: TextBaseline.alphabetic,
-          child: RepaintBoundary(
-            child: _buildAnimation(highlight),
-          ),
+          child: RepaintBoundary(child: _buildAnimation(highlight)),
         ),
       );
 
@@ -127,9 +123,7 @@ class SketchyParagraph extends StatelessWidget {
 
     // **Add remaining text after the last highlight**
     if (currentPosition < paragraph.length) {
-      spans.add(
-        TextSpan(text: paragraph.substring(currentPosition)),
-      );
+      spans.add(TextSpan(text: paragraph.substring(currentPosition)));
     }
 
     return spans;
@@ -207,7 +201,8 @@ class SketchyParagraph extends StatelessWidget {
         animatedWidget = AnimatedHighlightedText(
           text: highlight.text,
           highlightColor: highlight.sketchyColor!,
-          textStyle: highlight.textStyle ??
+          textStyle:
+              highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
@@ -217,7 +212,8 @@ class SketchyParagraph extends StatelessWidget {
         animatedWidget = AnimatedUnderlineText(
           text: highlight.text,
           underlineColor: highlight.sketchyColor!,
-          textStyle: highlight.textStyle ??
+          textStyle:
+              highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
@@ -226,7 +222,8 @@ class SketchyParagraph extends StatelessWidget {
       case SketchyType.strikethrough:
         animatedWidget = AnimatedStrikethroughText(
           text: highlight.text,
-          textStyle: highlight.textStyle ??
+          textStyle:
+              highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
           strikeColor: highlight.sketchyColor!,
           duration: highlight.duration!,
@@ -236,7 +233,8 @@ class SketchyParagraph extends StatelessWidget {
       case SketchyType.circle:
         animatedWidget = AnimatedCircleText(
           text: highlight.text,
-          textStyle: highlight.textStyle ??
+          textStyle:
+              highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
           circleColor: highlight.sketchyColor!,
           duration: highlight.duration!,
@@ -246,7 +244,8 @@ class SketchyParagraph extends StatelessWidget {
       case SketchyType.rectangle:
         animatedWidget = AnimatedRectangleText(
           text: highlight.text,
-          textStyle: highlight.textStyle ??
+          textStyle:
+              highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
           rectangleColor: highlight.sketchyColor!,
           duration: highlight.duration!,
@@ -256,9 +255,6 @@ class SketchyParagraph extends StatelessWidget {
     }
 
     // ✅ Wrap in GestureDetector if `onTap` is provided
-    return GestureDetector(
-      onTap: highlight.onTap,
-      child: animatedWidget,
-    );
+    return GestureDetector(onTap: highlight.onTap, child: animatedWidget);
   }
 }

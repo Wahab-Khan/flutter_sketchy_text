@@ -62,19 +62,19 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     // The animation progresses through 3 full circles
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     // Generate random offsets to simulate hand-drawn movement
-    _precomputedOffsets =
-        List.generate(1000, (index) => Random().nextDouble() * 3 - 1);
+    _precomputedOffsets = List.generate(
+      1000,
+      (index) => Random().nextDouble() * 3 - 1,
+    );
 
     // Start animation after delay if needed
     if (widget.startDelay > Duration.zero) {
@@ -105,10 +105,7 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
           ),
-          child: Text(
-            widget.text,
-            style: widget.textStyle,
-          ),
+          child: Text(widget.text, style: widget.textStyle),
         );
       },
     );
