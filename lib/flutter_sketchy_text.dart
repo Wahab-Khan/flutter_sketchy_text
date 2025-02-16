@@ -70,49 +70,132 @@ class SketchyParagraph extends StatelessWidget {
     );
   }
 
-  /// Processes the paragraph and applies sketchy effects to highlighted words.
+  /// **Processes the paragraph and applies sketchy effects to highlighted words.**
+  ///
+  /// This method:
+  /// - **Finds and applies sketchy effects** to words in the paragraph.
+  /// - **Maintains the original text structure** while inserting animated effects.
+  /// - **Ensures animations occur in paragraph order** (not the array order).
+  ///
+  /// ### **How It Works:**
+  /// 1. **Sorts highlights** by their first occurrence.
+  /// 2. **Adds normal text before each highlight**.
+  /// 3. **Replaces the highlighted word** with an animated widget.
+  /// 4. **Continues until all highlights are processed**.
+  ///
+  /// ### **Example Usage:**
+  /// ```dart
+  /// RichText(
+  ///   text: TextSpan(children: _processParagraph()),
+  /// )
+  /// ```
   List<InlineSpan> _processParagraph() {
     final List<InlineSpan> spans = [];
-    String remainingText = paragraph;
 
-    for (final highlight in highlights) {
-      final int startIndex = remainingText.indexOf(highlight.text);
+    // **Use the sorted highlights with correct startDelays**
+    final sortedHighlights = _computeStartDelays();
 
-      if (startIndex != -1) {
-        // Add normal text before the highlighted text
-        if (startIndex > 0) {
-          spans.add(
-            TextSpan(
-              text: remainingText.substring(0, startIndex),
-            ),
-          );
-        }
+    int currentPosition = 0;
 
-        // Add the highlighted text with the correct animation
-        spans.add(
-          WidgetSpan(
-            alignment: PlaceholderAlignment.baseline,
-            baseline: TextBaseline.alphabetic,
+    for (final highlight in sortedHighlights) {
+      // **Find the position of this highlight in the original paragraph**
+      final index = paragraph.indexOf(highlight.text, currentPosition);
+
+      if (index == -1) continue; // Skip if not found
+
+      // **Add text before the highlight**
+      if (index > currentPosition) {
+        spans.add(TextSpan(
+          text: paragraph.substring(currentPosition, index),
+        ));
+      }
+
+      // **Add the animated highlight**
+      spans.add(
+        WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: RepaintBoundary(
             child: _buildAnimation(highlight),
           ),
-        );
+        ),
+      );
 
-        // Remove the processed part and continue
-        remainingText =
-            remainingText.substring(startIndex + highlight.text.length);
-      }
+      // **Update current position to skip the processed highlight**
+      currentPosition = index + highlight.text.length;
     }
 
-    // Add any remaining text as normal text
-    if (remainingText.isNotEmpty) {
+    // **Add remaining text after the last highlight**
+    if (currentPosition < paragraph.length) {
       spans.add(
-        TextSpan(
-          text: remainingText,
-        ),
+        TextSpan(text: paragraph.substring(currentPosition)),
       );
     }
 
     return spans;
+  }
+
+  /// **Computes the correct animation start delays based on paragraph order.**
+  ///
+  /// This method:
+  /// - **Finds all occurrences** of highlighted words in the paragraph.
+  /// - **Sorts them in the order they appear** (ensuring proper animation sequence).
+  /// - **Assigns increasing start delays** so animations occur sequentially.
+  ///
+  /// ### **How It Works:**
+  /// 1. **Finds every occurrence** of each highlighted word.
+  /// 2. **Sorts occurrences** by their position in the paragraph.
+  /// 3. **Calculates start delays**, ensuring each animation follows the previous one.
+  ///
+  /// ### **Example Usage:**
+  /// ```dart
+  /// final orderedHighlights = _computeStartDelays();
+  /// print(orderedHighlights); // Logs each word with its computed delay.
+  /// ```
+  List<SketchySentance> _computeStartDelays() {
+    final List<MapEntry<int, SketchySentance>> indexedOccurrences = [];
+
+    // Step 1: Find all occurrences of ALL highlighted words in the paragraph
+    for (final highlight in highlights) {
+      int searchIndex = 0;
+      while (true) {
+        final index = paragraph.indexOf(highlight.text, searchIndex);
+        if (index == -1) break;
+
+        // Track the position and the highlight
+        indexedOccurrences.add(MapEntry(index, highlight));
+        searchIndex = index + highlight.text.length;
+      }
+    }
+
+    // Step 2: Sort all occurrences by their position in the paragraph
+    indexedOccurrences.sort((a, b) => a.key.compareTo(b.key));
+
+    // Step 3: Assign sequential delays based on sorted order
+    Duration accumulatedDelay = const Duration(milliseconds: 1000);
+    List<SketchySentance> orderedSentences = [];
+
+    for (final entry in indexedOccurrences) {
+      final highlight = entry.value;
+      final duration = highlight.duration ?? const Duration(seconds: 1);
+
+      orderedSentences.add(
+        SketchySentance.internalConstructor(
+          text: highlight.text,
+          sketchyColor: highlight.sketchyColor,
+          textStyle: highlight.textStyle,
+          duration: duration,
+          startDelay: accumulatedDelay,
+          sketchyType: highlight.sketchyType,
+          onTap: highlight.onTap,
+        ),
+      );
+
+      // Increment delay for the next animation
+      accumulatedDelay += duration + const Duration(seconds: 1);
+    }
+
+    return orderedSentences;
   }
 
   /// Builds the appropriate animation effect based on the highlight type.
@@ -123,21 +206,21 @@ class SketchyParagraph extends StatelessWidget {
       case SketchyType.highlight:
         animatedWidget = AnimatedHighlightedText(
           text: highlight.text,
-          highlightColor: highlight.sketchyColor,
+          highlightColor: highlight.sketchyColor!,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
-          duration: highlight.duration,
-          startDelay: highlight.startDelay,
+          duration: highlight.duration!,
+          startDelay: highlight.startDelay!,
         );
         break;
       case SketchyType.underline:
         animatedWidget = AnimatedUnderlineText(
           text: highlight.text,
-          underlineColor: highlight.sketchyColor,
+          underlineColor: highlight.sketchyColor!,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
-          duration: highlight.duration,
-          startDelay: highlight.startDelay,
+          duration: highlight.duration!,
+          startDelay: highlight.startDelay!,
         );
         break;
       case SketchyType.strikethrough:
@@ -145,9 +228,9 @@ class SketchyParagraph extends StatelessWidget {
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
-          strikeColor: highlight.sketchyColor,
-          duration: highlight.duration,
-          startDelay: highlight.startDelay,
+          strikeColor: highlight.sketchyColor!,
+          duration: highlight.duration!,
+          startDelay: highlight.startDelay!,
         );
         break;
       case SketchyType.circle:
@@ -155,9 +238,9 @@ class SketchyParagraph extends StatelessWidget {
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
-          circleColor: highlight.sketchyColor,
-          duration: highlight.duration,
-          startDelay: highlight.startDelay,
+          circleColor: highlight.sketchyColor!,
+          duration: highlight.duration!,
+          startDelay: highlight.startDelay!,
         );
         break;
       case SketchyType.rectangle:
@@ -165,9 +248,9 @@ class SketchyParagraph extends StatelessWidget {
           text: highlight.text,
           textStyle: highlight.textStyle ??
               const TextStyle(fontSize: 14, color: Colors.black),
-          rectangleColor: highlight.sketchyColor,
-          duration: highlight.duration,
-          startDelay: highlight.startDelay,
+          rectangleColor: highlight.sketchyColor!,
+          duration: highlight.duration!,
+          startDelay: highlight.startDelay!,
         );
         break;
     }

@@ -44,7 +44,7 @@ class AnimatedCircleText extends StatefulWidget {
     required this.text,
     required this.circleColor,
     required this.textStyle,
-    this.duration = const Duration(seconds: 4),
+    this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
   });
 
@@ -68,7 +68,7 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
     );
 
     // The animation progresses through 3 full circles
-    _animation = Tween<double>(begin: 0, end: 3).animate(
+    _animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
