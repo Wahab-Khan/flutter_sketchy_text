@@ -9,11 +9,11 @@ topics:
   - underline
   - animated
 
-version: 0.1.0
+version: 1.0.1
 license: MIT
 
 environment:
-  sdk: ^3.6.1
+  sdk: ^3.7.0
   flutter: ">=1.17.0"
 
 dependencies:
