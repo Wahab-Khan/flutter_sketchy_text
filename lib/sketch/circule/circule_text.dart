@@ -1,16 +1,18 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/circule/circule_painter.dart';
 
-/// A widget that **animates a sketchy circle effect** around a word or phrase.
+/// A widget that **animates a circle effect** around text.
 ///
-/// This widget progressively draws a **hand-drawn, organic circle** around the given text.
-/// It completes **three full rounds** before finishing the animation.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn effect.
+/// - **Plain Mode:** Smooth, structured animation.
 ///
 /// ### **Features:**
-/// - **Customizable Animation:** Control speed, delay, and color.
-/// - **Realistic Sketchy Look:** Uses random offsets for human-like imperfections.
-/// - **Integrates with Other Effects:** Works alongside highlight, underline, strikethrough, etc.
+/// - **Configurable Mode:** Choose `plain` or `organic` animation.
+/// - **Realistic Hand-Drawn Effect:** In `organic` mode, the animation has **human-like** imperfections.
+/// - **Smooth Motion:** In `plain` mode, the circle is drawn **precisely**.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -20,6 +22,7 @@ import 'package:flutter_sketchy_text/sketch/circule/circule_painter.dart';
 ///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
 ///   duration: Duration(seconds: 2),
 ///   startDelay: Duration(seconds: 1),
+///   animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 /// )
 /// ```
 class AnimatedCircleText extends StatefulWidget {
@@ -38,7 +41,10 @@ class AnimatedCircleText extends StatefulWidget {
   /// The delay before the animation starts.
   final Duration startDelay;
 
-  /// Creates an animated sketchy circle effect around text.
+  /// **Defines whether the animation is `plain` or `organic`.**
+  final SketchyAnimationMode animationMode;
+
+  /// Creates an animated sketchy or structured circle effect.
   const AnimatedCircleText({
     super.key,
     required this.text,
@@ -46,6 +52,7 @@ class AnimatedCircleText extends StatefulWidget {
     required this.textStyle,
     this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
+    this.animationMode = SketchyAnimationMode.organic,
   });
 
   @override
@@ -64,19 +71,18 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
 
-    // The animation progresses through 3 full circles
     _animation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
-    // Generate random offsets to simulate hand-drawn movement
+    // Generate random offsets for Organic Mode
     _precomputedOffsets = List.generate(
       1000,
       (index) => Random().nextDouble() * 3 - 1,
     );
 
-    // Start animation after delay if needed
+    // Start animation with optional delay
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
         if (mounted) _controller.forward();
@@ -104,6 +110,7 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
             circleColor: widget.circleColor,
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
+            animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),
         );

@@ -1,19 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 
-/// A `CustomPainter` that creates an **animated hand-drawn circle effect** around the text.
+/// A `CustomPainter` that creates an **animated circle effect** around text.
 ///
-/// This effect mimics an organic, human-like **sketchy** drawing that progressively
-/// circles the word with **three rounds**, giving it a lively animation.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn look.
+/// - **Plain Mode:** Smooth, structured ellipse.
 ///
-/// The effect starts at the right of the text and completes **three revolutions**
-/// to create a natural drawing motion.
-///
-/// ### **Usage:**
-/// Used internally by `AnimatedCircleText` to apply the animation effect.
-///
-/// - **Customization:** Controlled via `animationValue`, `circleColor`, and `precomputedOffsets`.
-/// - **Performance:** Redraws only when `animationValue` changes.
+/// The animation starts at the right side and progressively **completes three full circles**.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -24,6 +19,7 @@ import 'package:flutter/material.dart';
 ///     circleColor: Colors.blue,
 ///     animationValue: 1.0,  // 100% completed animation
 ///     precomputedOffsets: List.generate(1000, (index) => Random().nextDouble()),
+///     animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 ///   ),
 ///   child: Text("Flutter", style: TextStyle(fontSize: 24, color: Colors.black)),
 /// )
@@ -41,16 +37,20 @@ class CirclePainter extends CustomPainter {
   /// Controls the animation progress (0 to 3 full circles).
   final double animationValue;
 
-  /// A list of random offsets to create an organic, hand-drawn effect.
+  /// A list of random offsets for Organic Mode.
   final List<double> precomputedOffsets;
 
-  /// Creates a `CirclePainter` to draw an animated sketchy circle around text.
+  /// Determines whether the circle is **sketchy** or **plain**.
+  final SketchyAnimationMode animationMode;
+
+  /// Creates a `CirclePainter` to draw an animated sketchy or smooth circle.
   CirclePainter({
     required this.text,
     required this.textStyle,
     required this.circleColor,
     required this.animationValue,
     required this.precomputedOffsets,
+    this.animationMode = SketchyAnimationMode.organic,
   });
 
   @override
@@ -68,8 +68,8 @@ class CirclePainter extends CustomPainter {
     final centerY = wordHeight / 2;
 
     final path = Path();
-    final stretchX = wordWidth * 0.55; // Adjust horizontal stretching
-    final stretchY = wordHeight * 0.55; // Adjust vertical stretching
+    final stretchX = wordWidth * 0.55;
+    final stretchY = wordHeight * 0.55;
 
     for (int i = 0; i < 3; i++) {
       final currentProgress = (animationValue - i).clamp(0.0, 1.0);
@@ -81,18 +81,16 @@ class CirclePainter extends CustomPainter {
           angle <= 2 * pi * currentProgress;
           angle += 0.1
         ) {
-          final x =
-              centerX +
-              stretchX * cos(angle) +
-              precomputedOffsets[(angle * 10).toInt() %
-                      precomputedOffsets.length] *
-                  0.5;
-          final y =
-              centerY +
-              stretchY * sin(angle) +
-              precomputedOffsets[(angle * 10).toInt() %
-                      precomputedOffsets.length] *
-                  0.5;
+          final randomOffset =
+              (animationMode == SketchyAnimationMode.organic)
+                  ? precomputedOffsets[(angle * 10).toInt() %
+                          precomputedOffsets.length] *
+                      0.5
+                  : 0; // No randomness in Plain Mode
+
+          final x = centerX + stretchX * cos(angle) + randomOffset;
+          final y = centerY + stretchY * sin(angle) + randomOffset;
+
           path.lineTo(x, y);
         }
       }
