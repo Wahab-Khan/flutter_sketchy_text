@@ -53,11 +53,14 @@ class SketchyParagraph extends StatelessWidget {
   /// A list of words/sentences to be highlighted with different sketchy effects.
   final List<SketchySentance> highlights;
 
+  final SketchyAnimationMode animationMode;
+
   /// Creates a `SketchyParagraph` that applies animated sketchy effects to selected words.
   const SketchyParagraph({
     super.key,
     required this.paragraph,
     required this.highlights,
+    this.animationMode = SketchyAnimationMode.organic,
   });
 
   @override
@@ -206,6 +209,7 @@ class SketchyParagraph extends StatelessWidget {
               const TextStyle(fontSize: 14, color: Colors.black),
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
+          animationMode: animationMode,
         );
         break;
       case SketchyType.underline:
@@ -217,6 +221,7 @@ class SketchyParagraph extends StatelessWidget {
               const TextStyle(fontSize: 14, color: Colors.black),
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
+          animationMode: animationMode,
         );
         break;
       case SketchyType.strikethrough:
@@ -228,6 +233,7 @@ class SketchyParagraph extends StatelessWidget {
           strikeColor: highlight.sketchyColor!,
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
+          animationMode: animationMode,
         );
         break;
       case SketchyType.circle:
@@ -239,6 +245,7 @@ class SketchyParagraph extends StatelessWidget {
           circleColor: highlight.sketchyColor!,
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
+          animationMode: animationMode,
         );
         break;
       case SketchyType.rectangle:
@@ -250,6 +257,7 @@ class SketchyParagraph extends StatelessWidget {
           rectangleColor: highlight.sketchyColor!,
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
+          animationMode: animationMode,
         );
         break;
     }

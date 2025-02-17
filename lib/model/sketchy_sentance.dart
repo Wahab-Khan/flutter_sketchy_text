@@ -1,5 +1,11 @@
 part of "sketchy.dart";
 
+/// **Animation Mode for Sketchy Effects**
+///
+/// - `organic`: Creates **wavy, hand-drawn animations** (default).
+/// - `plain`: Creates **straight-line animations** without randomness.
+enum SketchyAnimationMode { organic, plain }
+
 /// Defines the types of styling that can be applied to a sentence or phrase.
 ///
 /// - [highlight]: Highlights the text with a background color.
