@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 
-/// A `CustomPainter` that creates an **animated, hand-drawn rectangle effect** around text.
+/// A `CustomPainter` that creates an **animated rectangle effect** around text.
 ///
-/// This effect simulates a person **drawing a rectangle around text in a natural, sketchy manner**.
-/// The rectangle **gradually appears**, starting from the top-left and moving **down, right, up, and left**.
-///
-/// ### **Features:**
-/// - **Realistic Hand-Drawn Look:** Uses **randomized wavy offsets** for an organic feel.
-/// - **Animated Effect:** The rectangle **draws progressively** as the animation progresses.
-/// - **Works with Any Text:** Automatically adapts to text size and width.
-///
-/// ### **Usage:**
-/// This painter is used internally by `AnimatedRectangleText` to apply the effect.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn effect.
+/// - **Plain Mode:** Smooth, structured rectangle.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -20,35 +14,28 @@ import 'package:flutter/material.dart';
 ///     text: "Flutter",
 ///     textStyle: TextStyle(fontSize: 24, color: Colors.black),
 ///     rectangleColor: Colors.orange,
-///     animationValue: 1.0,  // 100% completed rectangle
+///     animationValue: 1.0,  // 100% completed animation
 ///     precomputedOffsets: List.generate(1000, (index) => Random().nextDouble()),
+///     animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 ///   ),
 ///   child: Text("Flutter", style: TextStyle(fontSize: 24, color: Colors.black)),
 /// )
 /// ```
 class RectanglePainter extends CustomPainter {
-  /// The text to be enclosed in a rectangle.
   final String text;
-
-  /// The text style used for measurement.
   final TextStyle textStyle;
-
-  /// The color of the animated rectangle.
   final Color rectangleColor;
-
-  /// Controls the animation progress (0 to 1).
   final double animationValue;
-
-  /// A list of random offsets to create an organic, hand-drawn effect.
   final List<double> precomputedOffsets;
+  final SketchyAnimationMode animationMode;
 
-  /// Creates a `RectanglePainter` to draw an animated sketchy rectangle around text.
   RectanglePainter({
     required this.text,
     required this.textStyle,
     required this.rectangleColor,
     required this.animationValue,
     required this.precomputedOffsets,
+    this.animationMode = SketchyAnimationMode.organic,
   });
 
   @override
@@ -60,8 +47,7 @@ class RectanglePainter extends CustomPainter {
     );
     textPainter.layout(maxWidth: size.width);
 
-    final wordWidth =
-        textPainter.width + 6.0; // Extra padding for full coverage
+    final wordWidth = textPainter.width + 6.0;
     final wordHeight = textPainter.height;
     final offsetX = -1.0;
     final offsetY = 1.0;
@@ -70,68 +56,75 @@ class RectanglePainter extends CustomPainter {
     final totalLength = (wordWidth + wordHeight) * 2;
     final progressLength = totalLength * animationValue;
 
-    // Define rectangle segments
-    final downLength = wordHeight;
-    final rightLength = wordWidth;
-    final upLength = wordHeight;
-    final leftLength = wordWidth;
-
     double drawnLength = 0;
 
-    // Start at the top-left
+    /// **Helper function to get the offset:**
+    /// - **Organic Mode:** Adds small random offsets.
+    /// - **Plain Mode:** Returns 0 (perfect straight lines).
+    double getOffset(double value) =>
+        animationMode == SketchyAnimationMode.organic
+            ? precomputedOffsets[(value ~/ 6) % precomputedOffsets.length]
+            : 0; // Plain mode removes randomization
+
+    // **Start at the top-left**
     path.moveTo(offsetX, offsetY);
 
-    // Draw Down
+    // **Draw Down**
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
-      for (double y = 0; y <= downLength && y <= remaining; y += 6) {
+      for (double y = 0; y <= wordHeight && y <= remaining; y += 6) {
         final x =
-            offsetX + precomputedOffsets[(y ~/ 6) % precomputedOffsets.length];
+            animationMode == SketchyAnimationMode.organic
+                ? offsetX + getOffset(y)
+                : offsetX; // **Plain Mode keeps x constant**
         path.lineTo(x, offsetY + y);
       }
-      drawnLength += downLength;
+      drawnLength += wordHeight;
     }
 
-    // Draw Right
+    // **Draw Right**
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
-      for (double x = 0; x <= rightLength && x <= remaining; x += 6) {
+      for (double x = 0; x <= wordWidth && x <= remaining; x += 6) {
         final y =
-            offsetY +
-            downLength +
-            precomputedOffsets[(x ~/ 6) % precomputedOffsets.length];
+            animationMode == SketchyAnimationMode.organic
+                ? offsetY + wordHeight + getOffset(x)
+                : offsetY + wordHeight; // **Plain Mode keeps y constant**
         path.lineTo(offsetX + x, y);
       }
-      drawnLength += rightLength;
+      drawnLength += wordWidth;
     }
 
-    // Draw Up
+    // **Draw Up**
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
-      for (double y = 0; y <= upLength && y <= remaining; y += 6) {
+      for (double y = 0; y <= wordHeight && y <= remaining; y += 6) {
         final x =
-            offsetX +
-            rightLength +
-            precomputedOffsets[(y ~/ 6) % precomputedOffsets.length];
-        path.lineTo(x, offsetY + downLength - y);
+            animationMode == SketchyAnimationMode.organic
+                ? offsetX + wordWidth + getOffset(y)
+                : offsetX + wordWidth; // **Plain Mode keeps x constant**
+        path.lineTo(x, offsetY + wordHeight - y);
       }
-      drawnLength += upLength;
+      drawnLength += wordHeight;
     }
 
-    // Draw Left (closing the shape)
+    // **Draw Left (closing the shape)**
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
-      for (double x = 0; x <= leftLength && x <= remaining; x += 6) {
+      for (double x = 0; x <= wordWidth && x <= remaining; x += 6) {
         final y =
-            offsetY + precomputedOffsets[(x ~/ 6) % precomputedOffsets.length];
-        path.lineTo(offsetX + rightLength - x, y);
+            animationMode == SketchyAnimationMode.organic
+                ? offsetY + getOffset(x)
+                : offsetY; // **Plain Mode keeps y constant**
+        path.lineTo(offsetX + wordWidth - x, y);
       }
     }
 
+    // **Draw the rectangle**
     canvas.drawPath(path, _paint());
   }
 
-  /// Defines the paint style for the rectangle stroke.
+  /// **Defines the paint style for the rectangle stroke.**
   Paint _paint() {
     return Paint()
       ..color = rectangleColor

@@ -1,16 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/rectangle/rectangle_painter.dart';
 
-/// A widget that **animates a sketchy rectangle effect** around a word or phrase.
+/// A widget that **animates a rectangle effect** around text.
 ///
-/// This widget progressively draws a **hand-drawn, wavy rectangle** around the text,
-/// simulating a **person manually sketching a box** over the word.
-///
-/// ### **Features:**
-/// - **Customizable Animation:** Control speed, delay, and color.
-/// - **Realistic Sketchy Look:** Uses random offsets for human-like imperfections.
-/// - **Integrates with Other Effects:** Works alongside highlight, underline, strikethrough, etc.
+/// **Supports two modes:**
+/// - **Organic Mode:** Wavy, hand-drawn effect.
+/// - **Plain Mode:** Smooth, structured animation.
 ///
 /// ### **Example Usage:**
 /// ```dart
@@ -20,25 +17,17 @@ import 'package:flutter_sketchy_text/sketch/rectangle/rectangle_painter.dart';
 ///   textStyle: TextStyle(fontSize: 24, color: Colors.black),
 ///   duration: Duration(seconds: 2),
 ///   startDelay: Duration(seconds: 1),
+///   animationMode: SketchyAnimationMode.organic, // or SketchyAnimationMode.plain
 /// )
 /// ```
 class AnimatedRectangleText extends StatefulWidget {
-  /// The text that will be enclosed in a rectangle.
   final String text;
-
-  /// The color of the animated rectangle.
   final Color rectangleColor;
-
-  /// The style of the text inside the rectangle.
   final TextStyle textStyle;
-
-  /// The total duration of the animation.
   final Duration duration;
-
-  /// The delay before the animation starts.
   final Duration startDelay;
+  final SketchyAnimationMode animationMode;
 
-  /// Creates an animated sketchy rectangle effect around text.
   const AnimatedRectangleText({
     super.key,
     required this.text,
@@ -46,6 +35,7 @@ class AnimatedRectangleText extends StatefulWidget {
     required this.textStyle,
     this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
+    this.animationMode = SketchyAnimationMode.organic,
   });
 
   @override
@@ -69,13 +59,12 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
-    // Generate random offsets for a sketchy effect
-    _precomputedOffsets = List.generate(
-      1000,
-      (index) => Random().nextDouble() * 2 - 0.8,
-    );
+    // Precompute offsets for Organic Mode (random waviness)
+    _precomputedOffsets =
+        widget.animationMode == SketchyAnimationMode.organic
+            ? List.generate(1000, (index) => Random().nextDouble() * 3 - 1)
+            : List.filled(1000, 0); // Plain Mode has no randomness
 
-    // Start animation after delay if needed
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
         if (mounted) _controller.forward();
@@ -103,6 +92,7 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
             rectangleColor: widget.rectangleColor,
             animationValue: _animation.value,
             precomputedOffsets: _precomputedOffsets,
+            animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),
         );
