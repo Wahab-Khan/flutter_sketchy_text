@@ -25,11 +25,12 @@ jobs:
 
       - name: Authenticate & Publish
         env:
-          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # 🔑 Store credentials in GitHub Secrets
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # 🔑 Uses stored credentials
         run: |
-          echo "$PUB_CREDENTIALS" > credentials.json
-          flutter pub publish --force  # ✅ Fixed command for Flutter packages
-          rm credentials.json  # 🧹 Clean up credentials file
+          mkdir -p ~/.config/dart
+          echo "$PUB_CREDENTIALS" > ~/.config/dart/pub-credentials.json
+          flutter pub publish --force  # ✅ Publishes the package
+          rm ~/.config/dart/pub-credentials.json  # 🧹 Clean up
 
       - name: Success Message
         if: success()
