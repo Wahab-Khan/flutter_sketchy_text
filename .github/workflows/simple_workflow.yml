@@ -1,0 +1,37 @@
+name: Manual Publish to pub.dev
+
+on:
+  workflow_dispatch: # ✅ Allows manual trigger from GitHub UI
+
+jobs:
+  publish:
+    name: Publish to pub.dev
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # ✅ Required for authentication using OIDC
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Dart & Flutter
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Authenticate & Publish
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # 🔑 Store credentials in GitHub Secrets
+        run: |
+          echo "$PUB_CREDENTIALS" > credentials.json
+          flutter pub publish --force  # ✅ Fixed command for Flutter packages
+          rm credentials.json  # 🧹 Clean up credentials file
+
+      - name: Success Message
+        if: success()
+        run: echo "✅ Package published successfully!"
+
+      - name: Failure Message
+        if: failure()
+        run: echo "❌ Publishing failed. Check logs for details."
