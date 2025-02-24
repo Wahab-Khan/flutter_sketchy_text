@@ -19,10 +19,19 @@ jobs:
         run: flutter pub get
       # Here you can insert custom steps you need
       # - run: dart tool/generate-code.dart
-      - name: Publish
+      - name: Authenticate & Publish
         env:
-          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # Get credentials from secrets
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }} # 🔑 Uses stored credentials
         run: |
-          echo "$PUB_CREDENTIALS" > credentials.json
-          dart pub publish --force -C credentials.json
-          rm credentials.json # Clean up credentials file
+          mkdir -p ~/.config/dart
+          echo "$PUB_CREDENTIALS" > ~/.config/dart/pub-credentials.json
+          flutter pub publish --force  # ✅ Publishes the package
+          rm ~/.config/dart/pub-credentials.json  # 🧹 Clean up
+
+      - name: Success Message
+        if: success()
+        run: echo "✅ Package published successfully!"
+
+      - name: Failure Message
+        if: failure()
+        run: echo "❌ Publishing failed. Check logs for details."
