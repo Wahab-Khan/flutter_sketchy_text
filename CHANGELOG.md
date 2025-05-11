@@ -1,3 +1,7 @@
+## [2.0.1] - 18 February 2025
+
+Make improvment in documentations.
+
 ## [2.0.0] - 18 February 2025
 
 ### 🚀 New Features
