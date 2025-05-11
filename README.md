@@ -13,7 +13,7 @@ Flutter Sketchy Text is a dynamic package that brings human-like, hand-drawn tex
 
 _Demonstrates the default sketchy text animation applied to a paragraph._
 
-![Basic Usage](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/basic_usage.gif)
+![Basic Usage](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/basic_usage.gif)
 
 ---
 
