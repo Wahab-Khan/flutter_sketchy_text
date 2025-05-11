@@ -28,24 +28,24 @@ _Showcases the difference between Plain and Organic animation modes._
   ![Organic Mode](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/organic_mode.gif) -->
 
 - **Modes:** Hand-drawn, wavy lines for a natural, sketchy appearance.  
-  ![Organic Mode](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/animation_modes.gif)
+  ![Organic Mode](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/animation_modes.gif)
 
 ---
 
 ### 3️⃣ Sketchy Types
 
 - **Animation Types:** Hand-drawn, wavy lines for a natural, sketchy appearance.  
-  ![Organic Mode](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/animation_types.gif)
+  ![Organic Mode](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/animation_types.gif)
 
 _Illustrates various sketchy effects that can be applied to text._
 
-| **Sketchy Type**  | **Preview**                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------ |
-| **Highlight**     | ![Highlight](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/highlight.gif)         |
-| **Underline**     | ![Underline](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/underline.gif)         |
-| **Strikethrough** | ![Strikethrough](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/strikethrough.gif) |
-| **Circle**        | ![Circle](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/circle.gif)               |
-| **Rectangle**     | ![Rectangle](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/main/assets/rectangle.gif)         |
+| **Sketchy Type**  | **Preview**                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Highlight**     | ![Highlight](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/highlight.gif)         |
+| **Underline**     | ![Underline](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/underline.gif)         |
+| **Strikethrough** | ![Strikethrough](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/strikethrough.gif) |
+| **Circle**        | ![Circle](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/circle.gif)               |
+| **Rectangle**     | ![Rectangle](https://github.com/Wahab-Khan/flutter_sketchy_text/raw/update_docs/assets/rectangle.gif)         |
 
 ---
 
