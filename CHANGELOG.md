@@ -1,6 +1,6 @@
-## [2.0.1] - 18 February 2025
+## [2.0.2] - 18 May 2025
 
-Update Flutter version from 3.7.0 to 3.9.3.
+Update Flutter version from 3.7.2 to 3.8.0
 
 ## [2.0.1] - 18 February 2025
 
