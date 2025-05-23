@@ -1,3 +1,7 @@
+## [2.0.3] - 18 May 2025
+
+Reducing SDK version to make it work with old versions.
+
 ## [2.0.2] - 18 May 2025
 
 Update Flutter version from 3.7.2 to 3.8.0
