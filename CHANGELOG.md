@@ -1,3 +1,12 @@
+## [2.1.0] - 05 April 2026
+
+### 🚀 New Features
+- **Markdown Parsing**: Added `SketchyParagraph.parse()` automated constructor to support mapping annotations using lightweight markdown wrappers (`==highlight==`, `__underline__`, `~~strikethrough~~`, `((circle))`, `[[rectangle]]`).
+- **Static Rendering**: Introduced `isAnimated` property globally and locally. Pass `false` to suppress drawing animations and instantly paint sketchy vectors upfront without waiting for start delays.
+
+### ⚡ Performance
+- **Zero-Footprint Global Randomness Generation**: Eliminated runtime array allocation bottle-necks. Created an internal singleton `SketchyRandomPool` globally reducing widget memory load when computing organic wiggly offsets by mapping them simultaneously.
+
 ## [2.0.3] - 18 May 2025
 
 Reducing SDK version to make it work with old versions.
