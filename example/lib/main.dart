@@ -45,10 +45,16 @@ or rectangled challenges to bring text to life.
     SketchySentance(
       text: "highlighted text",
       sketchyType: SketchyType.highlight,
+      onTap: () {
+        debugPrint("User clicked 'highlighted text'!");
+      },
     ),
     SketchySentance(
       text: "underlined words",
       sketchyType: SketchyType.underline,
+      onTap: () {
+        debugPrint("User clicked 'underlined words'!");
+      },
     ),
     SketchySentance(
       text: "circled techniques",
@@ -133,6 +139,19 @@ class MyHomePage extends StatelessWidget {
               highlights: paragraphModel.highlightSentances,
               animationMode: SketchyAnimationMode.organic,
               isAnimated: false,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Markdown Support:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SketchyParagraph.parse(
+              "This is ==highlighted==, this is __underlined__, and this is ~~striked out~~.\nAlso, you can have ((circles)) and [[rectangles]]!",
+              highlightColor: Colors.yellow.withValues(alpha: 0.4),
+              underlineColor: Colors.blue,
+              strikethroughColor: Colors.red,
+              circleColor: Colors.purple,
+              rectangleColor: Colors.green,
             ),
           ],
         ),

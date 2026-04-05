@@ -67,6 +67,122 @@ class SketchyParagraph extends StatelessWidget {
     this.isAnimated = true,
   });
 
+  /// Parses a markdown-like string to automatically produce a `SketchyParagraph`.
+  ///
+  /// **Supported Syntax:**
+  /// - `==text==` -> Highlight
+  /// - `__text__` -> Underline
+  /// - `~~text~~` -> Strikethrough
+  /// - `((text))` -> Circle
+  /// - `[[text]]` -> Rectangle
+  ///
+  /// **Example:**
+  /// ```dart
+  /// SketchyParagraph.parse(
+  ///   "Welcome to ==Flutter==! It is an __amazing__ framework.",
+  /// );
+  /// ```
+  factory SketchyParagraph.parse(
+    String markdownStr, {
+    Key? key,
+    SketchyAnimationMode animationMode = SketchyAnimationMode.organic,
+    bool isAnimated = true,
+    Color? highlightColor,
+    TextStyle? highlightStyle,
+    Color? underlineColor,
+    TextStyle? underlineStyle,
+    Color? strikethroughColor,
+    TextStyle? strikethroughStyle,
+    Color? circleColor,
+    TextStyle? circleStyle,
+    Color? rectangleColor,
+    TextStyle? rectangleStyle,
+  }) {
+    final List<SketchySentance> builtHighlights = [];
+    String rawParagraph = markdownStr;
+
+    final RegExp exp = RegExp(
+        r'==([^=]+)==|__([^_]+)__|~~([^~]+)~~|\(\(([^)]+)\)\)|\[\[([^\]]+)\]\]');
+
+    final matches = exp.allMatches(markdownStr);
+
+    for (final match in matches) {
+      String? text;
+      SketchyType? type;
+
+      if (match.group(1) != null) {
+        text = match.group(1);
+        type = SketchyType.highlight;
+      } else if (match.group(2) != null) {
+        text = match.group(2);
+        type = SketchyType.underline;
+      } else if (match.group(3) != null) {
+        text = match.group(3);
+        type = SketchyType.strikethrough;
+      } else if (match.group(4) != null) {
+        text = match.group(4);
+        type = SketchyType.circle;
+      } else if (match.group(5) != null) {
+        text = match.group(5);
+        type = SketchyType.rectangle;
+      }
+
+      if (text != null && type != null) {
+        Color? color;
+        TextStyle? style;
+        switch (type) {
+          case SketchyType.highlight:
+            color = highlightColor;
+            style = highlightStyle;
+            break;
+          case SketchyType.underline:
+            color = underlineColor;
+            style = underlineStyle;
+            break;
+          case SketchyType.strikethrough:
+            color = strikethroughColor;
+            style = strikethroughStyle;
+            break;
+          case SketchyType.circle:
+            color = circleColor;
+            style = circleStyle;
+            break;
+          case SketchyType.rectangle:
+            color = rectangleColor;
+            style = rectangleStyle;
+            break;
+        }
+
+        builtHighlights.add(
+          SketchySentance(
+            text: text,
+            sketchyType: type,
+            sketchyColor: color,
+            textStyle: style,
+          ),
+        );
+      }
+    }
+
+    // Clean up the markdown string to create the pure paragraph
+    rawParagraph = rawParagraph.replaceAllMapped(exp, (match) {
+      return match.group(1) ??
+          match.group(2) ??
+          match.group(3) ??
+          match.group(4) ??
+          match.group(5) ??
+          '';
+    });
+
+    return SketchyParagraph(
+      key: key,
+      paragraph: rawParagraph,
+      highlights: builtHighlights,
+      animationMode: animationMode,
+      isAnimated: isAnimated,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return RichText(
