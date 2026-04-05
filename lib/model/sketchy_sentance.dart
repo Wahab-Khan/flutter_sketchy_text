@@ -66,6 +66,11 @@ class SketchySentance {
   /// Defaults to [SketchyType.highlight].
   final SketchyType sketchyType;
 
+  /// Whether the sketchy effect animates as it draws, or appears instantly.
+  ///
+  /// Defaults to true.
+  final bool isAnimated;
+
   /// Callback function triggered when the user taps on the text.
   ///
   /// If null, no interaction is enabled.
@@ -90,6 +95,7 @@ class SketchySentance {
     ),
     Duration? duration,
     this.sketchyType = SketchyType.highlight,
+    this.isAnimated = true,
     this.onTap,
   })  : sketchyColor = sketchyColor ?? _getDefaultColor(sketchyType),
         duration = getDefaultDuration(sketchyType);
@@ -101,6 +107,7 @@ class SketchySentance {
     required this.startDelay,
     required this.duration,
     required this.sketchyType,
+    required this.isAnimated,
     required this.onTap,
   });
 

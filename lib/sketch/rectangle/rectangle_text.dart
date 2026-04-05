@@ -26,6 +26,7 @@ class AnimatedRectangleText extends StatefulWidget {
   final Duration duration;
   final Duration startDelay;
   final SketchyAnimationMode animationMode;
+  final bool isAnimated;
 
   const AnimatedRectangleText({
     super.key,
@@ -35,6 +36,7 @@ class AnimatedRectangleText extends StatefulWidget {
     this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
     this.animationMode = SketchyAnimationMode.organic,
+    this.isAnimated = true,
   });
 
   @override
@@ -56,6 +58,11 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    if (!widget.isAnimated) {
+      _controller.value = 1.0;
+      return;
+    }
 
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {

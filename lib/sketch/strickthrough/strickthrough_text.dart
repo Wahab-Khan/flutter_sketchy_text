@@ -26,6 +26,7 @@ class AnimatedStrikethroughText extends StatefulWidget {
   final Duration duration;
   final Duration startDelay;
   final SketchyAnimationMode animationMode; // New Mode for Plain/Organic
+  final bool isAnimated;
 
   const AnimatedStrikethroughText({
     super.key,
@@ -35,6 +36,7 @@ class AnimatedStrikethroughText extends StatefulWidget {
     this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
     this.animationMode = SketchyAnimationMode.organic, // Default to Organic
+    this.isAnimated = true,
   });
 
   @override
@@ -53,6 +55,11 @@ class _AnimatedStrikethroughTextState extends State<AnimatedStrikethroughText>
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    if (!widget.isAnimated) {
+      _controller.value = 1.0;
+      return;
+    }
 
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {

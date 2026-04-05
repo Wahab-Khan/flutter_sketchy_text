@@ -38,6 +38,8 @@ class AnimatedHighlightedText extends StatefulWidget {
   /// **Determines whether the highlight is sketchy (Organic) or straight (Plain).**
   final SketchyAnimationMode animationMode;
 
+  final bool isAnimated;
+
   /// Creates an animated sketchy highlight effect for text.
   const AnimatedHighlightedText({
     super.key,
@@ -47,6 +49,7 @@ class AnimatedHighlightedText extends StatefulWidget {
     this.animationMode = SketchyAnimationMode.organic, // Default to organic
     this.duration = const Duration(milliseconds: 2000),
     this.startDelay = Duration.zero,
+    this.isAnimated = true,
   });
 
   @override
@@ -68,6 +71,11 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
 
     // Define the animation
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    if (!widget.isAnimated) {
+      _controller.value = 1.0;
+      return;
+    }
 
     // Start the animation after the given delay
     if (widget.startDelay > Duration.zero) {

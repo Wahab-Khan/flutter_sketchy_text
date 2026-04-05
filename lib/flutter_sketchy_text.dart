@@ -55,12 +55,16 @@ class SketchyParagraph extends StatelessWidget {
 
   final SketchyAnimationMode animationMode;
 
+  /// Whether all sketchy effects should animate by default.
+  final bool isAnimated;
+
   /// Creates a `SketchyParagraph` that applies animated sketchy effects to selected words.
   const SketchyParagraph({
     super.key,
     required this.paragraph,
     required this.highlights,
     this.animationMode = SketchyAnimationMode.organic,
+    this.isAnimated = true,
   });
 
   @override
@@ -184,6 +188,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: duration,
           startDelay: accumulatedDelay,
           sketchyType: highlight.sketchyType,
+          isAnimated: isAnimated && highlight.isAnimated,
           onTap: highlight.onTap,
         ),
       );
@@ -209,6 +214,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
           animationMode: animationMode,
+          isAnimated: highlight.isAnimated,
         );
         break;
       case SketchyType.underline:
@@ -220,6 +226,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
           animationMode: animationMode,
+          isAnimated: highlight.isAnimated,
         );
         break;
       case SketchyType.strikethrough:
@@ -231,6 +238,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
           animationMode: animationMode,
+          isAnimated: highlight.isAnimated,
         );
         break;
       case SketchyType.circle:
@@ -242,6 +250,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
           animationMode: animationMode,
+          isAnimated: highlight.isAnimated,
         );
         break;
       case SketchyType.rectangle:
@@ -253,6 +262,7 @@ class SketchyParagraph extends StatelessWidget {
           duration: highlight.duration!,
           startDelay: highlight.startDelay!,
           animationMode: animationMode,
+          isAnimated: highlight.isAnimated,
         );
         break;
     }

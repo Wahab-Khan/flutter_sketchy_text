@@ -23,6 +23,16 @@ final organicHeadingModel = SketchyModel(
   ],
 );
 
+final staticHeadingModel = SketchyModel(
+  paragraph: "Static Rendering (Upfront)",
+  highlightSentances: [
+    SketchySentance(
+      text: "Static Rendering (Upfront)",
+      textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  ],
+);
+
 /// **Paragraph with words highlighted using sketchy effects.**
 SketchyModel paragraphModel = SketchyModel(
   paragraph: """
@@ -86,9 +96,10 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(title: const Text('Flutter Sketchy Text Demo')),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
             SketchyParagraph(
               paragraph: plainHeadingModel.paragraph,
               highlights: plainHeadingModel.highlightSentances,
@@ -110,9 +121,22 @@ class MyHomePage extends StatelessWidget {
               highlights: paragraphModel.highlightSentances,
               animationMode: SketchyAnimationMode.organic,
             ),
+            const SizedBox(height: 20),
+            SketchyParagraph(
+              paragraph: staticHeadingModel.paragraph,
+              highlights: staticHeadingModel.highlightSentances,
+              animationMode: SketchyAnimationMode.organic,
+              isAnimated: false,
+            ),
+            SketchyParagraph(
+              paragraph: paragraphModel.paragraph,
+              highlights: paragraphModel.highlightSentances,
+              animationMode: SketchyAnimationMode.organic,
+              isAnimated: false,
+            ),
           ],
         ),
       ),
-    );
+    ),);
   }
 }

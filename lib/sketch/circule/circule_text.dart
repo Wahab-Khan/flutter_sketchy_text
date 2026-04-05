@@ -43,6 +43,8 @@ class AnimatedCircleText extends StatefulWidget {
   /// **Defines whether the animation is `plain` or `organic`.**
   final SketchyAnimationMode animationMode;
 
+  final bool isAnimated;
+
   /// Creates an animated sketchy or structured circle effect.
   const AnimatedCircleText({
     super.key,
@@ -52,6 +54,7 @@ class AnimatedCircleText extends StatefulWidget {
     this.duration = const Duration(seconds: 2),
     this.startDelay = Duration.zero,
     this.animationMode = SketchyAnimationMode.organic,
+    this.isAnimated = true,
   });
 
   @override
@@ -73,6 +76,11 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    if (!widget.isAnimated) {
+      _controller.value = 1.0;
+      return;
+    }
 
     // Start animation with optional delay
     if (widget.startDelay > Duration.zero) {
