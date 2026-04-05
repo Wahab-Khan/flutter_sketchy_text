@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/underline/underline_painter.dart';
@@ -46,7 +45,6 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late List<double> _precomputedOffsets;
 
   @override
   void initState() {
@@ -54,15 +52,6 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-
-    _precomputedOffsets = List.generate(
-      1000,
-      (index) =>
-          widget.animationMode == SketchyAnimationMode.organic
-              ? Random().nextDouble() * 3 -
-                  1 // Wavy Effect
-              : 0, // Plain Mode: No Offsets
-    );
 
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
@@ -90,7 +79,6 @@ class _AnimatedUnderlineTextState extends State<AnimatedUnderlineText>
             textStyle: widget.textStyle,
             underlineColor: widget.underlineColor,
             animationValue: _animation.value,
-            precomputedOffsets: _precomputedOffsets,
             animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),

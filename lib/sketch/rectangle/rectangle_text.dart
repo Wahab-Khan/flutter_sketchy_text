@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/rectangle/rectangle_painter.dart';
@@ -46,7 +45,6 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late List<double> _precomputedOffsets;
 
   @override
   void initState() {
@@ -58,12 +56,6 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    // Precompute offsets for Organic Mode (random waviness)
-    _precomputedOffsets =
-        widget.animationMode == SketchyAnimationMode.organic
-            ? List.generate(1000, (index) => Random().nextDouble() * 3 - 1)
-            : List.filled(1000, 0); // Plain Mode has no randomness
 
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
@@ -91,7 +83,6 @@ class _AnimatedRectangleTextState extends State<AnimatedRectangleText>
             textStyle: widget.textStyle,
             rectangleColor: widget.rectangleColor,
             animationValue: _animation.value,
-            precomputedOffsets: _precomputedOffsets,
             animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/circule/circule_painter.dart';
@@ -63,7 +62,6 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late List<double> _precomputedOffsets;
 
   @override
   void initState() {
@@ -75,12 +73,6 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
-    // Generate random offsets for Organic Mode
-    _precomputedOffsets = List.generate(
-      1000,
-      (index) => Random().nextDouble() * 3 - 1,
-    );
 
     // Start animation with optional delay
     if (widget.startDelay > Duration.zero) {
@@ -109,7 +101,6 @@ class _AnimatedCircleTextState extends State<AnimatedCircleText>
             textStyle: widget.textStyle,
             circleColor: widget.circleColor,
             animationValue: _animation.value,
-            precomputedOffsets: _precomputedOffsets,
             animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),

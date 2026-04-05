@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
+import 'package:flutter_sketchy_text/model/sketchy_random_pool.dart';
 
 /// A `CustomPainter` that creates an **animated, hand-drawn underline effect** under text.
 ///
@@ -11,7 +12,7 @@ class UnderlinePainter extends CustomPainter {
   final TextStyle textStyle;
   final Color underlineColor;
   final double animationValue;
-  final List<double> precomputedOffsets;
+
   final SketchyAnimationMode animationMode; // New Mode
 
   UnderlinePainter({
@@ -19,7 +20,6 @@ class UnderlinePainter extends CustomPainter {
     required this.textStyle,
     required this.underlineColor,
     required this.animationValue,
-    required this.precomputedOffsets,
     required this.animationMode,
   });
 
@@ -45,9 +45,9 @@ class UnderlinePainter extends CustomPainter {
       } else {
         // **ORGANIC MODE: Wavy underline**
         for (double x = 0; x <= lineWidth * animationValue; x += 8) {
-          final y =
-              lineTop +
-              precomputedOffsets[(x ~/ 8) % precomputedOffsets.length];
+          final y = lineTop +
+              SketchyRandomPool
+                  .offsets[(x ~/ 8) % SketchyRandomPool.offsets.length];
           path.lineTo(x, y);
         }
       }

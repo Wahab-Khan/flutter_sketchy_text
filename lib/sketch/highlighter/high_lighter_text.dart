@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/highlighter/highlighter_painter.dart';
@@ -59,7 +58,6 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late List<double> _precomputedOffsets;
 
   @override
   void initState() {
@@ -70,12 +68,6 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
 
     // Define the animation
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-
-    // Generate random offsets only if using organic mode
-    _precomputedOffsets =
-        widget.animationMode == SketchyAnimationMode.organic
-            ? List.generate(1000, (index) => Random().nextDouble() * 3.5 - 1)
-            : List.generate(1000, (index) => 0); // No randomness for plain mode
 
     // Start the animation after the given delay
     if (widget.startDelay > Duration.zero) {
@@ -106,7 +98,6 @@ class _AnimatedHighlightedTextState extends State<AnimatedHighlightedText>
             textStyle: widget.textStyle,
             highlightColor: widget.highlightColor,
             animationValue: _animation.value,
-            precomputedOffsets: _precomputedOffsets,
             animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),

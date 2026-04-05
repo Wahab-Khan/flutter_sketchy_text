@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
 import 'package:flutter_sketchy_text/sketch/strickthrough/strickthrough_painter.dart';
@@ -47,7 +46,6 @@ class _AnimatedStrikethroughTextState extends State<AnimatedStrikethroughText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late List<double> _precomputedOffsets;
 
   @override
   void initState() {
@@ -55,15 +53,6 @@ class _AnimatedStrikethroughTextState extends State<AnimatedStrikethroughText>
 
     _controller = AnimationController(vsync: this, duration: widget.duration);
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-
-    _precomputedOffsets = List.generate(
-      1000,
-      (index) =>
-          widget.animationMode == SketchyAnimationMode.organic
-              ? Random().nextDouble() * 3.5 -
-                  1.5 // Wavy Effect
-              : 0, // Plain Mode: No Offsets
-    );
 
     if (widget.startDelay > Duration.zero) {
       Future.delayed(widget.startDelay, () {
@@ -91,7 +80,6 @@ class _AnimatedStrikethroughTextState extends State<AnimatedStrikethroughText>
             textStyle: widget.textStyle,
             strikeColor: widget.strikeColor,
             animationValue: _animation.value,
-            precomputedOffsets: _precomputedOffsets,
             animationMode: widget.animationMode,
           ),
           child: Text(widget.text, style: widget.textStyle),

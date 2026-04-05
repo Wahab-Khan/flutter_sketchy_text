@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
+import 'package:flutter_sketchy_text/model/sketchy_random_pool.dart';
 
 /// **A `CustomPainter` that creates an animated highlight effect behind text.**
 ///
@@ -36,9 +37,6 @@ class HighlighterPainter extends CustomPainter {
   /// Controls the animation progress (0 to 1).
   final double animationValue;
 
-  /// A list of random offsets to create an organic, hand-drawn effect.
-  final List<double> precomputedOffsets;
-
   /// Determines whether the highlight should be **sketchy (organic)** or **straight (plain)**.
   final SketchyAnimationMode animationMode;
 
@@ -48,7 +46,6 @@ class HighlighterPainter extends CustomPainter {
     required this.textStyle,
     required this.highlightColor,
     required this.animationValue,
-    required this.precomputedOffsets,
     this.animationMode = SketchyAnimationMode.organic, // Default to organic
   });
 
@@ -85,18 +82,18 @@ class HighlighterPainter extends CustomPainter {
         // **Top wavy line**
         path.moveTo(0, lineTop);
         for (double x = 0; x <= lineWidth * animationValue; x += 10) {
-          final y =
-              lineTop +
-              precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
+          final y = lineTop +
+              SketchyRandomPool
+                  .offsets[(x ~/ 10) % SketchyRandomPool.offsets.length];
           path.lineTo(x, y);
         }
 
         // **Bottom wavy line**
         for (double x = lineWidth * animationValue; x >= 0; x -= 10) {
-          final y =
-              lineTop +
+          final y = lineTop +
               lineHeight * 0.8 +
-              precomputedOffsets[(x ~/ 10) % precomputedOffsets.length];
+              SketchyRandomPool
+                  .offsets[(x ~/ 10) % SketchyRandomPool.offsets.length];
           path.lineTo(x, y);
         }
 

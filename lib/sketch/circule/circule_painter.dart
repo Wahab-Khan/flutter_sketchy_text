@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
+import 'package:flutter_sketchy_text/model/sketchy_random_pool.dart';
 
 /// A `CustomPainter` that creates an **animated circle effect** around text.
 ///
@@ -37,9 +38,6 @@ class CirclePainter extends CustomPainter {
   /// Controls the animation progress (0 to 3 full circles).
   final double animationValue;
 
-  /// A list of random offsets for Organic Mode.
-  final List<double> precomputedOffsets;
-
   /// Determines whether the circle is **sketchy** or **plain**.
   final SketchyAnimationMode animationMode;
 
@@ -49,7 +47,6 @@ class CirclePainter extends CustomPainter {
     required this.textStyle,
     required this.circleColor,
     required this.animationValue,
-    required this.precomputedOffsets,
     this.animationMode = SketchyAnimationMode.organic,
   });
 
@@ -76,17 +73,14 @@ class CirclePainter extends CustomPainter {
       if (currentProgress > 0) {
         path.moveTo(centerX + stretchX, centerY);
 
-        for (
-          double angle = 0;
-          angle <= 2 * pi * currentProgress;
-          angle += 0.1
-        ) {
-          final randomOffset =
-              (animationMode == SketchyAnimationMode.organic)
-                  ? precomputedOffsets[(angle * 10).toInt() %
-                          precomputedOffsets.length] *
-                      0.5
-                  : 0; // No randomness in Plain Mode
+        for (double angle = 0;
+            angle <= 2 * pi * currentProgress;
+            angle += 0.1) {
+          final randomOffset = (animationMode == SketchyAnimationMode.organic)
+              ? SketchyRandomPool.offsets[
+                      (angle * 10).toInt() % SketchyRandomPool.offsets.length] *
+                  0.5
+              : 0; // No randomness in Plain Mode
 
           final x = centerX + stretchX * cos(angle) + randomOffset;
           final y = centerY + stretchY * sin(angle) + randomOffset;
@@ -96,12 +90,11 @@ class CirclePainter extends CustomPainter {
       }
     }
 
-    final paint =
-        Paint()
-          ..color = circleColor
-          ..strokeWidth = 2
-          ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round;
+    final paint = Paint()
+      ..color = circleColor
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
 
     canvas.drawPath(path, paint);
   }

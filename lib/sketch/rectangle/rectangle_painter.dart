@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sketchy_text/model/sketchy.dart';
+import 'package:flutter_sketchy_text/model/sketchy_random_pool.dart';
 
 /// A `CustomPainter` that creates an **animated rectangle effect** around text.
 ///
@@ -26,7 +27,7 @@ class RectanglePainter extends CustomPainter {
   final TextStyle textStyle;
   final Color rectangleColor;
   final double animationValue;
-  final List<double> precomputedOffsets;
+
   final SketchyAnimationMode animationMode;
 
   RectanglePainter({
@@ -34,7 +35,6 @@ class RectanglePainter extends CustomPainter {
     required this.textStyle,
     required this.rectangleColor,
     required this.animationValue,
-    required this.precomputedOffsets,
     this.animationMode = SketchyAnimationMode.organic,
   });
 
@@ -63,7 +63,8 @@ class RectanglePainter extends CustomPainter {
     /// - **Plain Mode:** Returns 0 (perfect straight lines).
     double getOffset(double value) =>
         animationMode == SketchyAnimationMode.organic
-            ? precomputedOffsets[(value ~/ 6) % precomputedOffsets.length]
+            ? SketchyRandomPool
+                .offsets[(value ~/ 6) % SketchyRandomPool.offsets.length]
             : 0; // Plain mode removes randomization
 
     // **Start at the top-left**
@@ -73,10 +74,9 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double y = 0; y <= wordHeight && y <= remaining; y += 6) {
-        final x =
-            animationMode == SketchyAnimationMode.organic
-                ? offsetX + getOffset(y)
-                : offsetX; // **Plain Mode keeps x constant**
+        final x = animationMode == SketchyAnimationMode.organic
+            ? offsetX + getOffset(y)
+            : offsetX; // **Plain Mode keeps x constant**
         path.lineTo(x, offsetY + y);
       }
       drawnLength += wordHeight;
@@ -86,10 +86,9 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double x = 0; x <= wordWidth && x <= remaining; x += 6) {
-        final y =
-            animationMode == SketchyAnimationMode.organic
-                ? offsetY + wordHeight + getOffset(x)
-                : offsetY + wordHeight; // **Plain Mode keeps y constant**
+        final y = animationMode == SketchyAnimationMode.organic
+            ? offsetY + wordHeight + getOffset(x)
+            : offsetY + wordHeight; // **Plain Mode keeps y constant**
         path.lineTo(offsetX + x, y);
       }
       drawnLength += wordWidth;
@@ -99,10 +98,9 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double y = 0; y <= wordHeight && y <= remaining; y += 6) {
-        final x =
-            animationMode == SketchyAnimationMode.organic
-                ? offsetX + wordWidth + getOffset(y)
-                : offsetX + wordWidth; // **Plain Mode keeps x constant**
+        final x = animationMode == SketchyAnimationMode.organic
+            ? offsetX + wordWidth + getOffset(y)
+            : offsetX + wordWidth; // **Plain Mode keeps x constant**
         path.lineTo(x, offsetY + wordHeight - y);
       }
       drawnLength += wordHeight;
@@ -112,10 +110,9 @@ class RectanglePainter extends CustomPainter {
     if (drawnLength < progressLength) {
       final remaining = progressLength - drawnLength;
       for (double x = 0; x <= wordWidth && x <= remaining; x += 6) {
-        final y =
-            animationMode == SketchyAnimationMode.organic
-                ? offsetY + getOffset(x)
-                : offsetY; // **Plain Mode keeps y constant**
+        final y = animationMode == SketchyAnimationMode.organic
+            ? offsetY + getOffset(x)
+            : offsetY; // **Plain Mode keeps y constant**
         path.lineTo(offsetX + wordWidth - x, y);
       }
     }

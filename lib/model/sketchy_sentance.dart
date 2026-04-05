@@ -91,8 +91,8 @@ class SketchySentance {
     Duration? duration,
     this.sketchyType = SketchyType.highlight,
     this.onTap,
-  }) : sketchyColor = sketchyColor ?? _getDefaultColor(sketchyType),
-       duration = getDefaultDuration(sketchyType);
+  })  : sketchyColor = sketchyColor ?? _getDefaultColor(sketchyType),
+        duration = getDefaultDuration(sketchyType);
 
   SketchySentance.internalConstructor({
     required this.text,
