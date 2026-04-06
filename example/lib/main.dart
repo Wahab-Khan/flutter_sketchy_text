@@ -106,56 +106,57 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-            SketchyParagraph(
-              paragraph: plainHeadingModel.paragraph,
-              highlights: plainHeadingModel.highlightSentances,
-              animationMode: SketchyAnimationMode.plain,
-            ),
-            SketchyParagraph(
-              paragraph: paragraphModel.paragraph,
-              highlights: paragraphModel.highlightSentances,
-              animationMode: SketchyAnimationMode.plain,
-            ),
-            const SizedBox(height: 20),
-            SketchyParagraph(
-              paragraph: organicHeadingModel.paragraph,
-              highlights: organicHeadingModel.highlightSentances,
-              animationMode: SketchyAnimationMode.organic,
-            ),
-            SketchyParagraph(
-              paragraph: paragraphModel.paragraph,
-              highlights: paragraphModel.highlightSentances,
-              animationMode: SketchyAnimationMode.organic,
-            ),
-            const SizedBox(height: 20),
-            SketchyParagraph(
-              paragraph: staticHeadingModel.paragraph,
-              highlights: staticHeadingModel.highlightSentances,
-              animationMode: SketchyAnimationMode.organic,
-              isAnimated: false,
-            ),
-            SketchyParagraph(
-              paragraph: paragraphModel.paragraph,
-              highlights: paragraphModel.highlightSentances,
-              animationMode: SketchyAnimationMode.organic,
-              isAnimated: false,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Markdown Support:",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SketchyParagraph.parse(
-              "This is ==highlighted==, this is __underlined__, and this is ~~striked out~~.\nAlso, you can have ((circles)) and [[rectangles]]!",
-              highlightColor: Colors.yellow.withValues(alpha: 0.4),
-              underlineColor: Colors.blue,
-              strikethroughColor: Colors.red,
-              circleColor: Colors.purple,
-              rectangleColor: Colors.green,
-            ),
-          ],
+              SketchyParagraph(
+                paragraph: plainHeadingModel.paragraph,
+                highlights: plainHeadingModel.highlightSentances,
+                animationMode: SketchyAnimationMode.plain,
+              ),
+              SketchyParagraph(
+                paragraph: paragraphModel.paragraph,
+                highlights: paragraphModel.highlightSentances,
+                animationMode: SketchyAnimationMode.plain,
+              ),
+              const SizedBox(height: 20),
+              SketchyParagraph(
+                paragraph: organicHeadingModel.paragraph,
+                highlights: organicHeadingModel.highlightSentances,
+                animationMode: SketchyAnimationMode.organic,
+              ),
+              SketchyParagraph(
+                paragraph: paragraphModel.paragraph,
+                highlights: paragraphModel.highlightSentances,
+                animationMode: SketchyAnimationMode.organic,
+              ),
+              const SizedBox(height: 20),
+              SketchyParagraph(
+                paragraph: staticHeadingModel.paragraph,
+                highlights: staticHeadingModel.highlightSentances,
+                animationMode: SketchyAnimationMode.organic,
+                isAnimated: false,
+              ),
+              SketchyParagraph(
+                paragraph: paragraphModel.paragraph,
+                highlights: paragraphModel.highlightSentances,
+                animationMode: SketchyAnimationMode.organic,
+                isAnimated: false,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "Markdown Support:",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SketchyParagraph.parse(
+                "This is ==highlighted==, this is __underlined__, and this is ~~striked out~~.\nAlso, you can have ((circles)) and [[rectangles]]!",
+                highlightColor: Colors.yellow.withValues(alpha: 0.4),
+                underlineColor: Colors.blue,
+                strikethroughColor: Colors.red,
+                circleColor: Colors.purple,
+                rectangleColor: Colors.green,
+              ),
+            ],
+          ),
         ),
       ),
-    ),);
+    );
   }
 }
